@@ -1,54 +1,28 @@
-import React, { useState } from "react";
-import AuthService from "../../services/auth.service";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-
+import React from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Login from "../../components/Login";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
 
 export default function LoginPage() {
-    const [formValues, setFormValues] = useState({email: "", password: ""});
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(formValues.email);
-        AuthService.login(formValues.email, formValues.password)
-            .then((res) => {
-                console.log(res)
-            })
-    }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValues({
-            ...formValues,
-            [name]: value
-        });
-    };
-
+    
     return (
-        <form onSubmit={handleSubmit}>
-            <TextField
-                id="email-input"
-                name="email"
-                type="email"
-                value={formValues.email}
-                onChange={handleChange}
-            />
-            <TextField
-                id="password-input"
-                name="password"
-                type="password"
-                value={formValues.password}
-                onChange={handleChange}
-            />
-            <Button
-                variant="contained"
-                color="primary"
-                type="submit"
+        <Container component="main" maxWidth="sm">
+            <Box 
+                sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
             >
-                    Sign in
-                </Button>
+            <Typography component="h1" variant="h5">
+            Sign in
+            </Typography>
 
-
-        </form>
+                <Login/>
+            </Box>
+        </Container>
     );
 }
