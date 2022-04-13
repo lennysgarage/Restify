@@ -120,6 +120,13 @@ class Unfollow(generics.DestroyAPIView):
     def get_object(self):
         return get_object_or_404(self.queryset, restaurant=self.kwargs['restaurant_id'], follower__email=self.request.user.email)
 
+class ViewFollowers(generics.ListAPIView):
+    serializer_class = FollowSerializer
+
+    def get_queryset(self):
+        query = get_object_or_404(Restaurant, id=self.kwargs['restaurant_id'])
+        object_list = Follow.objects.filter(restaurant__id = query.id)
+        return object_list
 
 class Likes(generics.ListAPIView):
     queryset = Like.objects.all()

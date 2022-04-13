@@ -10,7 +10,6 @@ class RestaurantSerializer(serializers.ModelSerializer):
         model = Restaurant
         fields = '__all__'
 
-
 class CreateRestaurantSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=True)
     address = serializers.CharField(required=True)
@@ -27,7 +26,6 @@ class CreateRestaurantSerializer(serializers.ModelSerializer):
 
     def create(self, data):
         return Restaurant.objects.create(**data)
-
 
 class MenuItemSerializer(serializers.ModelSerializer):
     class Meta:

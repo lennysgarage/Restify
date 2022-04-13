@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:restaurant_id>/comments/', views.ViewComments.as_view()),
     path('<int:restaurant_id>/follow/', views.FollowView.as_view()),
     path('<int:restaurant_id>/unfollow/', views.Unfollow.as_view()),
+    path('<int:restaurant_id>/followers/', views.ViewFollowers.as_view()),
     path('<int:restaurant_id>/like/', views.LikeRestaurantView.as_view()),
     path('<int:restaurant_id>/unlike/', views.UnLikeRestaurantView.as_view()),
     path('<int:restaurant_id>/addphoto/', views.AddPhoto.as_view()),
