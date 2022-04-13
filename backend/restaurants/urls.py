@@ -6,6 +6,7 @@ app_name = 'restaurants'
 urlpatterns = [
     path('create/', views.CreateRestaurant.as_view()),
     path('', views.GetRestaurants.as_view()),
+    path('myrestaurant/', views.GetRestaurant.as_view()),
     path('edit/', views.EditRestaurant.as_view()),
     path('search/', views.SearchRestaurants.as_view()),
     path('<int:restaurant_id>/', views.ViewRestaurant.as_view()),

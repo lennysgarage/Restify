@@ -40,6 +40,12 @@ class EditRestaurant(generics.UpdateAPIView):
     def get_object(self):
         return get_object_or_404(self.queryset, owner__email=self.request.user.email)
 
+class GetRestaurant(generics.RetrieveAPIView):
+    queryset = Restaurant.objects.all().select_related('owner')
+    serializer_class = RestaurantSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.queryset, owner__email=self.request.user.email)
 
 class SearchRestaurants(generics.ListAPIView):
     serializer_class = RestaurantSerializer

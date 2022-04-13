@@ -21,7 +21,7 @@ const Router = () => {
                     <Route path="feed" element={<FeedPage />} />
                     <Route path="search/?q=" element={<SearchResultsPage />} />
                     <Route path="restaurant" element={<CreateRestaurantPage />} />
-                    <Route path="restaurant/<restaurantid>" element={<RestaurantPage />} />
+                    <Route path="restaurant/:restaurant_id" element={<RestaurantPage />} />
                     <Route path="restaurant/<restaurantid>/blog/<blogid>" element={<BlogPage />} />
                 </Route>
             </Routes>
