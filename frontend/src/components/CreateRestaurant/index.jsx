@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import axios from "axios";
 
 const CreateRestaurant = () => {
 
@@ -13,15 +12,14 @@ const CreateRestaurant = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const input = document.querySelector('input[name="logo"]');
         const data = new FormData(e.currentTarget);
-        axios.post('http://localhost:8000/api/restaurants/create/', {
-            name: data.get('name'), 
-            address: data.get('address'),
-            postal_code: data.get('postal_code'),
-            phone_number: data.get('phone_number'),
-            country_code: data.get('country_code'),
-            description: data.get('description'),
-        }, {headers: authHeader()})
+        data.append('logo', input.files[0]);
+        fetch('http://localhost:8000/api/restaurants/create/', {
+            method: 'POST',
+            body: data,
+            headers: authHeader()
+        })
             .then((res) => {
                 navigate('/restaurant/')
             })
@@ -118,14 +116,13 @@ const CreateRestaurant = () => {
                     variant="contained"
                     component="label"
                     color="primary"
-                    name="logo"
                     style={{backgroundColor: '#f78c25'}}
                     sx={{ mt: 3, mb: 2 }}
                 >
                     Upload Logo For Your Restaurant
                     <input
+                        name="logo"
                         type="file"
-                        hidden
                     />
                 </Button>
                 <Button
