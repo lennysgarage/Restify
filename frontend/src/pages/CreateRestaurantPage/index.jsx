@@ -1,13 +1,28 @@
 import React from "react";
-import authHeader from "../../services/auth-header";
-import authService from "../../services/auth.service";
-import axios from "axios";
-import CreateRestaurant from "../../components/CreateRestaurant"
+import CheckRestaurant from "../../components/CheckRestaurant"
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Container from "@mui/material/Container";
+
 
 export default function CreateRestaurantPage() {
-    return <CreateRestaurant />
-    {/*axios.get("http://localhost:8000/api/restaurants/")
-.then(response => console.log(response.data.results))*/}
+    return (
+        <Container component="main" maxWidth="sm">
+            <Box 
+                sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+            }}
+            >
+            <Typography component="h1" variant="h5">
+            Create Your Restaurant
+            </Typography>
+            <CheckRestaurant />
+            </Box>
+        </Container>
+    );
 
-        
+
 }
