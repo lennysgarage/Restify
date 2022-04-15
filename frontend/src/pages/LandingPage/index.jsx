@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-
+import Logout from "../../components/Logout";
 
 export default function LandingPage() {
     return (
@@ -23,7 +23,7 @@ export default function LandingPage() {
                     <Typography variant="h1">Search ANY restaurant.</Typography> {/* Probably remove this line */}
                     <Grid container spacing={1} marginTop={1}>
                         <Grid item xs={12}>
-                            
+                            <Logout/>
                         </Grid>
                         <Grid item xs={6}>
                             
