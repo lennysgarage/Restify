@@ -20,7 +20,8 @@ const Router = () => {
                     <Route path="login" element={<LoginPage />} />
                     <Route path="profile" element={<ProfilePage />} />
                     <Route path="feed" element={<FeedPage />} />
-                    <Route path="search/?q=" element={<SearchResultsPage />} />
+                    <Route path="search/" element={<SearchResultsPage />} />
+                    <Route path="search/:query" element={<SearchResultsPage />} />
                     <Route path="restaurant" element={<CreateRestaurantPage />} />
                     <Route path="restaurant/:restaurant_id" element={<RestaurantPage />} />
                     <Route path="restaurant/:restaurant_id/addblog" element={<AddBlogPage />} />

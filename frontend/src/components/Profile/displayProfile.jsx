@@ -6,8 +6,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import authHeader from "../../services/auth-header";
+import Stack from "@mui/material/Stack";
+import Avatar from "@mui/material/Avatar";
+import Divider from '@mui/material/Divider';
 import axios from 'axios';
-
+import { createBox } from '@mui/system';
 
 
 const API_URL = "http://localhost:8000/api/"
@@ -27,7 +30,6 @@ const DisplayProfile = () => {
         fetchProfile()
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.data)
                     setData(response.data);
                 } else {
                     setData(null);
@@ -42,7 +44,29 @@ const DisplayProfile = () => {
     if (loaded === true) {
         if (data !== null) {
             return (
-                <Typography variant="h2">Yes</Typography>
+                <Grid 
+                    container 
+                    alignItems="center" 
+                    justifyItems="center"
+                    justifyContent="center"
+                    rowSpacing={1} 
+                    columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                > 
+                    <Grid item xs={12}>
+                        <Avatar alt="Your profile picture" src={data.profile_photo} sx={{ width: 128, height: 128 }}>
+                            {data.first_name}
+                        </Avatar>
+                    </Grid>
+
+                    
+                    <Grid item xs={6}>
+                        <Typography >Full Name</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Typography>{data.first_name} {data.last_name}</Typography>
+                    </Grid>
+                </Grid>
+                
             )
         } else {
             return (
