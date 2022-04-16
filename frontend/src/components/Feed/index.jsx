@@ -13,22 +13,22 @@ import axios from 'axios';
 const API_URL = "http://localhost:8000/api/"
 
 
-const DisplayProfile = () => {
+const Feed = () => {
     const [data, setData] = useState(null);
     const [loaded, setLoaded] = useState(false);
 
-    const fetchProfile = () => {
-        return axios.get(API_URL + 'accounts/profile/view', {
+    const fetchFeed = () => {
+        return axios.get(API_URL + 'blogs/feed', {
             headers: authHeader()       
         })
     }
 
     useEffect(() => {
-        fetchProfile()
+        fetchFeed()
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response.data)
-                    setData(response.data);
+                    console.log(response)
+                    setData(response);
                 } else {
                     setData(null);
                 }
@@ -51,9 +51,9 @@ const DisplayProfile = () => {
         }
     } else {
         return (
-            <Typography variant="h2">Loading profile information...</Typography>
+            <Typography variant="h2">Loading feed...</Typography>
         );
     }
 }
 
-export default DisplayProfile;
+export default Feed;
