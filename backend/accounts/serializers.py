@@ -78,15 +78,15 @@ class NotificationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 # notification/add
-class AddNotificationSerializer(serializers.ModelSerializer):
-    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    date = serializers.DateTimeField(required=True)
-    title = serializers.CharField(required=True)
-    content = serializers.CharField(required=True)
+# class AddNotificationSerializer(serializers.ModelSerializer):
+#     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+#     date = serializers.DateTimeField(required=True)
+#     title = serializers.CharField(required=True)
+#     content = serializers.CharField(required=True)
 
-    class Meta:
-        model = Notification
-        fields = ('user', 'date', 'title', 'content')
+#     class Meta:
+#         model = Notification
+#         fields = ('user', 'date', 'title', 'content')
 
-    def create(self, data):
-        return Notification.objects.create(**data)
+#     def create(self, data):
+#         return Notification.objects.create(**data)

@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import AddNotificationSerializer, EditUserSerializer, NotificationSerializer, RegisterSerializer, UserSerializer, CustomTokenObtainPairSerializer, ViewUserSerializer
+from .serializers import EditUserSerializer, NotificationSerializer, RegisterSerializer, UserSerializer, CustomTokenObtainPairSerializer, ViewUserSerializer
 from .models import Notification, User
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -63,7 +63,7 @@ class GetNotifications(generics.ListAPIView):
     serializer_class = NotificationSerializer
 
 # notification/add
-class AddNotification(generics.CreateAPIView):
-    queryset = Notification.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
-    serializer_class = AddNotificationSerializer
+# class AddNotification(generics.CreateAPIView):
+#     queryset = Notification.objects.all()
+#     permission_classes = [permissions.IsAuthenticated]
+#     serializer_class = AddNotificationSerializer

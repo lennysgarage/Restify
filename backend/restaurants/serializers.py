@@ -1,5 +1,7 @@
 from wsgiref.validate import validator
 from rest_framework import serializers
+
+from accounts.models import Notification
 from .models import Like, MenuItem, Restaurant, Comment, Follow, RestaurantImage
 from accounts.models import User
 from django.shortcuts import get_object_or_404
@@ -93,6 +95,16 @@ class FollowSerializer(serializers.ModelSerializer):
 
         follow.save()
 
+        notif = Notification.objects.create(
+            user=get_object_or_404(User, id=follow.restaurant.owner.id),
+            title="A user has followed your restaurant",
+            content="Your restaurant " + str(getattr(get_object_or_404(Restaurant, id=follow.restaurant.id), 'name')) + 
+                    " has been followed by " + str(getattr(get_object_or_404(User, id=follow.follower.id), 'first_name')) +
+                    " " + str(getattr(get_object_or_404(User, id=follow.follower.id), 'last_name'))
+        )
+
+        notif.save()
+
         return follow
 
 class LikesSerializer(serializers.ModelSerializer):
@@ -115,6 +127,16 @@ class LikeRestaurantSerializer(serializers.ModelSerializer):
         )
 
         likedby.save()
+
+        notif = Notification.objects.create(
+            user=get_object_or_404(User, id=likedby.restaurant.owner.id),
+            title="A user has liked your restaurant",
+            content="Your restaurant " + str(getattr(get_object_or_404(Restaurant, id=likedby.restaurant.id), 'name')) + 
+                    " has been liked by " + str(getattr(get_object_or_404(User, id=likedby.likedby.id), 'first_name')) +
+                    " " + str(getattr(get_object_or_404(User, id=likedby.likedby.id), 'last_name'))
+        )
+
+        notif.save()
 
         return likedby
 
