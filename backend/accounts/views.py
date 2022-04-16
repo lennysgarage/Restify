@@ -62,6 +62,9 @@ class GetNotifications(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = NotificationSerializer
 
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
 # notification/add
 # class AddNotification(generics.CreateAPIView):
 #     queryset = Notification.objects.all()
