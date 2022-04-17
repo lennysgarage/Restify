@@ -16,10 +16,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Container from '@mui/material/Container';
 import AuthService from "../../services/auth.service";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
 
+  let navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [status, setStatus] = React.useState(0);
@@ -42,6 +43,7 @@ export default function Navbar() {
   const handleLogout = () => {
     AuthService.logout();
     handleCloseUserMenu();
+    navigate('/')
   };
 
   useEffect(() => {
