@@ -58,7 +58,7 @@ export default function Navbar() {
 
   if (status === 200) {
     return (
-      <AppBar position="static" sx={{backgroundColor: '#f78c25'}}>
+      <AppBar position="sticky" sx={{backgroundColor: '#f78c25'}}>
         <Container maxWidth="xl">
           <Toolbar disableGutters>
 
