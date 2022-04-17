@@ -8,13 +8,14 @@ import CreateRestaurantPage from "../../pages/CreateRestaurantPage";
 import RestaurantPage from "../../pages/RestaurantPage";
 import AddBlogPage from "../../pages/AddBlogPage";
 import BlogPage from "../../pages/BlogPage";
+import Layout from "../../pages/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const Router = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/">
+                <Route path="/" element={<Layout />}>
                     <Route index={true} element={<LandingPage />} />
                     <Route path="register" element={<RegisterPage />} />
                     <Route path="login" element={<LoginPage />} />

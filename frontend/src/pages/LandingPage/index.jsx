@@ -10,14 +10,14 @@ export default function LandingPage() {
     return (
         <>
             <Box
-                height="100vh"
+                height="90vh"
                 bgcolor="primary"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
                 textAlign="center"
             >
-                <Box width="100%">
+                <Box width="60%">
                     {/* need navbar component */}
                     {/* need main title component */}
                     {/* need search bar component */}
@@ -36,7 +36,7 @@ export default function LandingPage() {
                 </Box>
             </Box>
 
-            <Outlet />
+            {/* <Outlet /> */}
         </>
     );
 }
