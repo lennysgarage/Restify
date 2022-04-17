@@ -17,7 +17,12 @@ const CheckRestaurant = () => {
         axios.get("http://localhost:8000/api/restaurants/myrestaurant/", {
             headers: authHeader()
             })
-        .then(response => {return navigate(`/restaurant/${response.data.id}`)})
+        .then(response => {
+            if (typeof response.data.id !== 'undefined') {
+                return navigate(`/restaurant/${response.data.id}`)
+            }
+            setStatus(401)
+        })
         .catch(err => setStatus(err.response.status))
     }, [navigate])
 

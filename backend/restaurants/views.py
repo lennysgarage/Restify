@@ -45,6 +45,8 @@ class GetRestaurant(generics.RetrieveAPIView):
     serializer_class = RestaurantSerializer
 
     def get_object(self):
+        if (self.request.user.is_anonymous):
+            return None
         return get_object_or_404(self.queryset, owner__email=self.request.user.email)
 
 class SearchRestaurants(generics.ListAPIView):
