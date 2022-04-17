@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 import Container from '@mui/material/Container';
 import { Link } from "react-router-dom";
 
@@ -197,14 +198,19 @@ export default function Navbar() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
-              <Button onClick={handleOpenUserMenu} sx={{ p: 0, textTransform: 'none'}}>
-                <Typography variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-                  Profile
-                </Typography>
-              </Button>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenUserMenu}
+                color="inherit"
+              >
+                <AccountCircle sx={{ width: '1.5em', height: '1.5em' }}/>
+              </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: '55px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
