@@ -13,7 +13,7 @@ const ChangeLogo = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const input = document.querySelector('input[name="logo"]');
-        const data = new FormData(e.currentTarget);
+        const data = new FormData();
         data.append('logo', input.files[0]);
         fetch("http://localhost:8000/api/restaurants/edit/", {
             method: 'PATCH',
@@ -33,20 +33,13 @@ const ChangeLogo = () => {
                     color="primary"
                     sx={{ mt: 3, mb: 2 }}
                     style={{backgroundColor: '#f75000'}}
-                > Select New Logo      
+                > Change Logo     
                  <input
                         hidden
                         name="logo"
                         type="file"
+                        onChange={ handleSubmit }
                     />
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    sx={{ mt: 3, mb: 2 }}
-                    style={{backgroundColor: '#f75555'}}
-                > Update Logo      
                 </Button>
             </Box>
         );

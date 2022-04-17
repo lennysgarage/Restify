@@ -11,6 +11,7 @@ import BlogPage from "../../pages/BlogPage";
 import Layout from "../../pages/Layout";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EditRestaurantPage from "../../pages/EditRestaurantPage";
+import AddMenuPage from "../../pages/AddMenuPage";
 
 const Router = () => {
     return (
@@ -27,6 +28,7 @@ const Router = () => {
                     <Route path="restaurant" element={<CreateRestaurantPage />} />
                     <Route path="restaurant/:restaurant_id" element={<RestaurantPage />} />
                     <Route path="restaurant/:restaurant_id/edit" element={<EditRestaurantPage />} />
+                    <Route path="restaurant/:restaurant_id/addmenu" element={<AddMenuPage />} />
                     <Route path="restaurant/:restaurant_id/addblog" element={<AddBlogPage />} />
                     <Route path="restaurant/:restaurant_id/blogs/" element={<BlogPage />} />
                 </Route>

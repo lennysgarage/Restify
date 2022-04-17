@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
-import { Card, CardMedia, Container, Pagination } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, CardMedia, Container, Pagination } from '@mui/material';
 import ChangeLogo from '../ChangeLogo';
 import AddPhoto from '../AddPhoto';
 
@@ -23,6 +23,8 @@ const Restaurant = ({ id }) => {
     let navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(1);
+    const [page2, setPage2] = useState(1);
+    const [count2, setCount2] = useState(1);
     const PER_PAGE = 4;
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
@@ -32,6 +34,8 @@ const Restaurant = ({ id }) => {
     const [photoData, setPhotoData] = useState(null);
     const [logo, setLogo] = useState("");
     const [addPhoto, setAddPhoto] = useState("");
+    const [addMenu, setAddMenu] = useState("");
+    const [menuData, setMenuData] = useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -39,6 +43,10 @@ const Restaurant = ({ id }) => {
 
     const handlePageChange = (e, p) => {
         setPage(p);
+    }
+
+    const handlePageChange2 = (e, p) => {
+        setPage2(p);
     }
 
     const customTheme = createTheme({
@@ -92,6 +100,17 @@ const Restaurant = ({ id }) => {
                 </Button>)
                 setLogo(<ChangeLogo />)
                 setAddPhoto(<AddPhoto id={id} />)
+                setAddMenu(
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 3, mb: 2 }}
+                    style={{backgroundColor: '#f78c25'}}
+                    component={Link} 
+                    to={`/restaurant/${id}/addmenu`}
+                >
+                        Add a Menu Item
+                </Button>)
                 setStatus(response.status)
         }})
         .catch(err => err)
@@ -103,7 +122,12 @@ const Restaurant = ({ id }) => {
             setPhotoData(response.data.results);
             setCount(Math.ceil(response.data.count/PER_PAGE));
          });
-    }, [id, page])
+         axios.get(`http://localhost:8000/api/restaurants/${id}/menu/?page=` + page2)
+        .then(response => {
+            setMenuData(response.data.results);
+            setCount2(Math.ceil(response.data.count/PER_PAGE));
+         });
+    }, [id, page, page2])
 
     if (status === 404) {
         return (
@@ -176,7 +200,52 @@ const Restaurant = ({ id }) => {
                         />
                     </Container>
                 </TabPanel>
-                <TabPanel value="2" >Item Two</TabPanel>
+                <TabPanel value="2" >
+                    <Typography variant="h5" color="black" display="inline-block" component="span">Menu: { addMenu }</Typography>
+                    <Container component="main" maxWidth="lg">
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            {menuData !== null && menuData.map((r, index) => (
+                                <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2}}>
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardMedia
+                                            component="img"
+                                            alt="Restaurant Logo"
+                                            height="256"
+                                            image={r.photo}
+                                        />
+                                        <CardHeader
+                                            title={r.name}
+                                            subheader={`
+                                                Price: ${r.price}
+                                                `}
+                                        />
+                                        <CardContent>
+                                            <Typography variant="body2" color="text.secondary">
+                                                {r.description}
+                                            </Typography>
+                                        </CardContent>
+                                    </Card>
+                                    { (status === 200 ? <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            sx={{ mt: 3, mb: 2 }}
+                                                            style={{backgroundColor: '#f78c25'}}
+                                                            to={`/restaurant/${id}/editmenu`}
+                                                            >
+                                                        Edit Menu Item
+                                                    </Button> : "") }
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Pagination
+                            count={count2}
+                            page={page2}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange2}
+                        />
+                    </Container> 
+                </TabPanel>
                 <TabPanel value="3">{ addBlog }</TabPanel>
                 <TabPanel value="4">{ addBlog }</TabPanel>
               </TabContext>
