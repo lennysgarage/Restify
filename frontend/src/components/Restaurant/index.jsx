@@ -14,8 +14,28 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
+import { Card, CardMedia, Container, Pagination } from '@mui/material';
 
 const Restaurant = ({ id }) => {
+
+    let navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [count, setCount] = useState(1);
+    const PER_PAGE = 4;
+    const [value, setValue] = useState('1');
+    const [edit, setEdit] = useState("");
+    const [addBlog, setAddBlog] = useState("");
+    const [status, setStatus] = useState(0);
+    const [restaurantData, setRestaurantData] = useState(0);
+    const [photoData, setPhotoData] = useState(null);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    }
+
+    const handlePageChange = (e, p) => {
+        setPage(p);
+    }
 
     const customTheme = createTheme({
         palette: {
@@ -24,21 +44,12 @@ const Restaurant = ({ id }) => {
         }
     })
 
-    const images = [
-        'https://st.depositphotos.com/2291517/4015/i/600/depositphotos_40155451-stock-photo-any-questions-concept.jpg',
-        'https://media-exp1.licdn.com/dms/image/C4D0BAQEjEMjwE0h-Hg/company-logo_200_200/0/1616511236450?e=2147483647&v=beta&t=cojR4JuiKc8svj0lHVU6zJF9rfObpdFr9iiDyqi6ctg',
-    ];
-    
-    let navigate = useNavigate();
-    const [value, setValue] = useState('1');
-    const [edit, setEdit] = useState("");
-    const [addBlog, setAddBlog] = useState("");
-    const [status, setStatus] = useState(0);
-    const [restaurantData, setRestaurantData] = useState(0);
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    function handleClick(img) {
+            axios.delete(`http://localhost:8000/api/restaurants/${id}/removephoto/${img}`, {
+                headers: authHeader()
+                })
+            .then(response => navigate('/restaurant'))
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -75,13 +86,18 @@ const Restaurant = ({ id }) => {
                 >
                         Add a Blog
                 </Button>)
+                setStatus(response.status)
         }})
         .catch(err => err)
         axios.get(`http://localhost:8000/api/restaurants/${id}`)
         .then(response => setRestaurantData(response.data))
         .catch(err => setStatus(err.response.status))
-        
-    }, [id])
+        axios.get(`http://localhost:8000/api/restaurants/${id}/photos/?page=` + page)
+        .then(response => {
+            setPhotoData(response.data.results);
+            setCount(Math.ceil(response.data.count/PER_PAGE));
+         });
+    }, [id, page])
 
     if (status === 404) {
         return (
@@ -93,12 +109,13 @@ const Restaurant = ({ id }) => {
         return (
             <Box sx={{ width: '100%', typography: 'body1', mt: 1 }}>
               <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'orange', color: 'orange' }} display="flex" alignItems="center" justifyContent="center">
+                <Box sx={{ borderBottom: 1, borderColor: 'orange', color: 'orange' }} display="flex" alignItems="center" justifyContent="center" >
                 <ThemeProvider theme={customTheme}>
-                  <TabList onChange={handleChange} TabIndicatorProps={{style: {background:'orange'}}} indicatorColor={'primary'}>
+                  <TabList onChange={handleChange} TabIndicatorProps={{style: {background:'orange'}}} indicatorColor={'primary'} >
                     <Tab label="Restaurant" value="1" />
                     <Tab label="Menu" value="2" />
                     <Tab label="Blog" value="3" />
+                    <Tab label="Comments" value="4" />
                   </TabList>
                 </ThemeProvider>
                 </Box>
@@ -111,10 +128,50 @@ const Restaurant = ({ id }) => {
                         <Typography variant="h4" bgcolor="rgba(0,0,0,0.7)" color="white" display="inline-block" >{ restaurantData.description }</Typography>
                         <br/>
                         <br/>
-                    </div>    
+                    </div>
+                    <br/>
+                    <br/>
+                    <Typography variant="h5" align="left" fontWeight='bold'> Address: { restaurantData.address }, { restaurantData.country_code },  { restaurantData.postal_code }</Typography>
+                    <br/>
+                    <Typography variant="h5" align="left" fontWeight='bold'> Phone: { restaurantData.phone_number }</Typography>
+                    <br/>
+                    <Typography variant="h5" color="black" display="inline-block" >Photo Gallery:</Typography>
+                    <Container component="main" maxWidth="lg">
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            {photoData !== null && photoData.map((r, index) => (
+                                <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2}}>
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardMedia
+                                            component="img"
+                                            alt="Restaurant Logo"
+                                            height="256"
+                                            image={r.img}
+                                        />
+                                    </Card>
+                                    { (status === 200 ? <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            sx={{ mt: 3, mb: 2 }}
+                                                            style={{backgroundColor: '#f78c25'}}
+                                                            onClick={() => { handleClick(r.id) } }
+                                                            >
+                                                        Remove Photo
+                                                    </Button> : "") }
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Pagination
+                            count={count}
+                            page={page}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange}
+                        />
+                    </Container>
                 </TabPanel>
                 <TabPanel value="2" >Item Two</TabPanel>
                 <TabPanel value="3">{ addBlog }</TabPanel>
+                <TabPanel value="4">{ addBlog }</TabPanel>
               </TabContext>
             </Box>
           )

@@ -22,5 +22,6 @@ urlpatterns = [
     path('<int:restaurant_id>/unlike/', views.UnLikeRestaurantView.as_view()),
     path('<int:restaurant_id>/addphoto/', views.AddPhoto.as_view()),
     path('<int:restaurant_id>/removephoto/<int:restaurantimage_id>/', views.RemovePhoto.as_view()),
+    path('<int:restaurant_id>/photos/', views.GetPhotos.as_view()),
     path('likes/', views.Likes.as_view()),
 ]

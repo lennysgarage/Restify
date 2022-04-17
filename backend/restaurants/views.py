@@ -179,3 +179,10 @@ class RemovePhoto(generics.DestroyAPIView):
 
     def get_object(self):
         return get_object_or_404(self.queryset, id=self.kwargs['restaurantimage_id'], restaurant__id=self.kwargs['restaurant_id'])
+
+class GetPhotos(generics.ListAPIView):
+    queryset = RestaurantImage.objects.all()
+    serializer_class = RemovePhotoSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.queryset, id=self.kwargs['restaurant_id'])
