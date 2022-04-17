@@ -8,11 +8,6 @@ import Typography from "@mui/material/Typography";
 import IconButton from '@mui/material/IconButton';
 import Button from "@mui/material/Button";
 import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grow from '@mui/material/Grow';
-import Paper from '@mui/material/Paper';
-import Popper from '@mui/material/Popper';
 import Menu from '@mui/material/Menu';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,70 +15,11 @@ import MenuList from '@mui/material/MenuList';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Container from '@mui/material/Container';
+import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {
-  // const [anchorEl, setAnchorEl] = React.useState(null);
 
-  // const handleClick = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // return (
-  //   <Box sx={{ flexGrow: 1 }}>
-  //     <AppBar sx={{backgroundColor: '#f78c25'}}>
-  //       <Toolbar>
-  //         <Typography component={Link} to="/" variant="h4" color="white" sx={{ textDecoration: 'none', paddingRight: '1rem' }}>
-  //           Restify
-  //         </Typography>
-  //         <div>
-            
-  //           <Typography component={Link} to="/feed" variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-  //             Feed
-  //           </Typography>
-  //           <Typography component={Link} to="/login" variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-  //             Log Out
-  //           </Typography>
-  //           <Typography component={Link} to="/restaurant" variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-  //             My Restaurant
-  //           </Typography>
-
-  //           <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} sx={{ color: "#ffffff", textTransform: 'none' }}>
-  //             <Typography variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-  //               Profile
-  //             </Typography>
-  //           </Button>
-            
-  //           <Menu
-  //             id="simple-menu"
-  //             anchorEl={anchorEl}
-  //             keepMounted
-  //             open={Boolean(anchorEl)}
-  //             onClose={handleClose}
-  //           >
-  //             <MenuItem onClick={handleClose}>
-  //               <Typography component={Link} to="/profile" variant="p" color="black" sx={{ textDecoration: 'none' }}>
-  //                 View Profile
-  //               </Typography>
-  //             </MenuItem>
-  //             <MenuItem onClick={handleClose}>
-  //               <Typography component={Link} to="/profile" variant="p" color="black" sx={{ textDecoration: 'none' }}>
-  //                 Edit Profile
-  //               </Typography>
-  //             </MenuItem>
-
-  //           </Menu>
-
-  //         </div>
-  //       </Toolbar>
-  //     </AppBar>
-  //   </Box>
-  // );
-  
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [status, setStatus] = React.useState(0);
@@ -103,15 +39,21 @@ export default function Navbar() {
     setAnchorElUser(null);
   };
 
+  const handleLogout = () => {
+    AuthService.logout();
+    alert("logged out")
+    handleCloseUserMenu();
+  };
+
   useEffect(() => {
     axios.get("http://localhost:8000/api/accounts/profile/view", {
         headers: authHeader()
         })
     .then(response => setStatus(response.status))
     .catch(err => setStatus(err.response.status))
-})
+  })
 
-if (status === 200) {
+  if (status === 200) {
     return (
       <AppBar position="static" sx={{backgroundColor: '#f78c25'}}>
         <Container maxWidth="xl">
@@ -251,8 +193,8 @@ if (status === 200) {
                   </Typography>
                 </MenuItem>
 
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Typography component={Link} to="/login" variant="h6" color="black" sx={{ textDecoration: 'none' }}>
+                <MenuItem onClick={handleLogout}>
+                  <Typography variant="h6" color="black" sx={{ textDecoration: 'none' }}>
                     Logout
                   </Typography>
                 </MenuItem>
@@ -269,4 +211,3 @@ if (status === 200) {
     return <h1> Hi</h1>
   }
 }
-
