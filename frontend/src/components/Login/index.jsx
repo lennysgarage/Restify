@@ -61,7 +61,7 @@ const Login = () => {
                     sx={{ mt: 3, mb: 2 }}
                     style={{backgroundColor: '#f78c25'}}
                 >
-                        Sign in
+                    Login
                 </Button>
             </Grid>
         </Box>

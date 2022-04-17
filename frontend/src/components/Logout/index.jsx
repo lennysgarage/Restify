@@ -11,7 +11,6 @@ const Login = () => {
 
     const handleClick = (e) => {
         AuthService.logout();
-        alert("logged out")
     }
 
     return (

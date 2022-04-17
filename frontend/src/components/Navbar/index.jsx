@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import {useEffect, useState} from 'react';
+import { useEffect, useState, useReducer } from 'react';
 import authHeader from "../../services/auth-header";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -41,7 +41,6 @@ export default function Navbar() {
 
   const handleLogout = () => {
     AuthService.logout();
-    alert("logged out")
     handleCloseUserMenu();
   };
 
