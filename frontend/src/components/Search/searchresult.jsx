@@ -1,15 +1,39 @@
 import React, {useEffect, useState} from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import authHeader from "../../services/auth-header";
-import axios from 'axios';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 
-const API_URL = "http://localhost:8000/api/"
+  
 
-const Search = () => {
-    
+export default function SearchResultCard(props) {
+
+    return (
+        <Card sx={{maxWidth: 345}}>
+            <CardHeader
+                avatar={
+                    <Avatar  sx={{ width: 32, height: 32 }} >
+                        {props.info.name}
+                    </Avatar>
+                }
+                title={props.info.name}
+                subheader={props.info.address}
+            />
+            {props.info.logo &&
+            <CardMedia 
+                component="img"
+                alt="Restaurant Logo"
+                height="256"
+                image={props.info.logo}
+            />}
+            <CardContent> 
+                <Typography variant="body2" color="text.secondary">
+                    {props.info.description}
+                </Typography>
+            </CardContent>
+        </Card>
+
+    )
 }

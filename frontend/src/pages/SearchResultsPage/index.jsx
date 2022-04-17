@@ -1,18 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import SearchBar from "../../components/Search/searchbarpage.jsx";
+import SearchResultCard from "../../components/Search/searchresult.jsx";
 import searchRequest from '../../components/Search/searchrequest';
 import Pagination from '@mui/material/Pagination';
 import Container from "@mui/material/Container";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
+
 
 export default function SearchResultsPage() {
 
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState(window.location.href.substring(29));
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(1);
-    const PER_PAGE = 1;
+    const PER_PAGE = 2;
     const [data, setData] = useState(null);
 
     
@@ -42,7 +43,7 @@ export default function SearchResultsPage() {
                 {data !== null && data.map(r => {
                     return (
                         <ListItem primaryText={r.name} key={r.id}> 
-                            <ListItemText primary={r.name} />
+                            <SearchResultCard info={r} />
                         </ListItem>
                     );
                 })}
