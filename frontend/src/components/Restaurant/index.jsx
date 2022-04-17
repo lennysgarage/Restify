@@ -14,7 +14,6 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
-import MuiImageSlider from 'mui-image-slider';
 
 const Restaurant = ({ id }) => {
 
@@ -112,9 +111,7 @@ const Restaurant = ({ id }) => {
                         <Typography variant="h4" bgcolor="rgba(0,0,0,0.7)" color="white" display="inline-block" >{ restaurantData.description }</Typography>
                         <br/>
                         <br/>
-                    </div>
- 
-                    <MuiImageSlider images={images}/>      
+                    </div>    
                 </TabPanel>
                 <TabPanel value="2" >Item Two</TabPanel>
                 <TabPanel value="3">{ addBlog }</TabPanel>
