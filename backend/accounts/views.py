@@ -54,7 +54,16 @@ class EditUser(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
-    
+
+    def update(self, request, *args, **kwargs):
+        super().update(request, *args, **kwargs)
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.object.set_password(serializer.data.get('password'))
+            self.object.save()
+        # return 
+        return JsonResponse({'status_code': 200})
 
 # notifications/
 class GetNotifications(generics.ListAPIView):

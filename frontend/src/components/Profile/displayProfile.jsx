@@ -13,6 +13,7 @@ import axios from 'axios';
 import { createBox } from '@mui/system';
 import { Paper } from '@mui/material';
 import EditPersonal from "./editPersonal";
+import EditAccount from "./editAccount";
 
 const API_URL = "http://localhost:8000/api/"
 
@@ -52,7 +53,7 @@ const DisplayProfile = () => {
                     justifyContent="flex-start"
                     spacing={2}
                 > 
-                <Typography variant="h1" sx={{fontWeight: 'bold', fontSize: '5rem'}}>Profile </Typography>
+                <Typography variant="h1" sx={{fontWeight: 'bold', fontSize: '4rem'}}>Profile </Typography>
                 {/* Avatar component */}
                     <Grid item xs={12}>
                         {/* <Avatar alt="Your profile picture" src={data.profile_photo} sx={{ width: 128, height: 128 }}>
@@ -61,20 +62,18 @@ const DisplayProfile = () => {
                     </Grid>
                     
                     {/* Account subheading */}
-                    <Grid item xs={12}>
-                            <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1rem', textAlign: 'start' }}>Account </Typography>
-                    </Grid>
+                    <Paper elevation={4}>
+                        <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2 }}>Account </Typography>
+                        <EditAccount data={data} />
 
-
-                        <Paper elevation={4}>
                             {/* Email component (cant edit this)*/} 
                             {/* Password component */}
-                        </Paper>
+                    </Paper>
                     
                     {/* Personal details subheading */}
                     <Paper elevation={4}>
-                            <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2}}>Personal details </Typography>
-                        <EditPersonal data={data} setData={setData}/>
+                        <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2}}>Personal details </Typography>
+                        <EditPersonal data={data} setData={setData} />
                     </Paper>
                 </Grid>
                 
