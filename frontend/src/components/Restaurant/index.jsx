@@ -15,6 +15,8 @@ import { createTheme } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
 import { Card, CardMedia, Container, Pagination } from '@mui/material';
+import ChangeLogo from '../ChangeLogo';
+import AddPhoto from '../AddPhoto';
 
 const Restaurant = ({ id }) => {
 
@@ -28,6 +30,8 @@ const Restaurant = ({ id }) => {
     const [status, setStatus] = useState(0);
     const [restaurantData, setRestaurantData] = useState(0);
     const [photoData, setPhotoData] = useState(null);
+    const [logo, setLogo] = useState("");
+    const [addPhoto, setAddPhoto] = useState("");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -86,6 +90,8 @@ const Restaurant = ({ id }) => {
                 >
                         Add a Blog
                 </Button>)
+                setLogo(<ChangeLogo />)
+                setAddPhoto(<AddPhoto id={id} />)
                 setStatus(response.status)
         }})
         .catch(err => err)
@@ -121,7 +127,7 @@ const Restaurant = ({ id }) => {
                 </Box>
                 <TabPanel value="1" >
                     <div style={{ backgroundImage: `url(${restaurantData.logo})`}}>
-                        <Typography align="right"> { edit } </Typography>
+                        <Typography align="right"> { edit } <br /> { logo } </Typography>
                         <Typography variant="h1" bgcolor="rgba(0,0,0,0.7)" color="white" display="inline-block" >{ restaurantData.name }</Typography>
                         <br/>
                         <br/>
@@ -135,7 +141,7 @@ const Restaurant = ({ id }) => {
                     <br/>
                     <Typography variant="h5" align="left" fontWeight='bold'> Phone: { restaurantData.phone_number }</Typography>
                     <br/>
-                    <Typography variant="h5" color="black" display="inline-block" >Photo Gallery:</Typography>
+                    <Typography variant="h5" color="black" display="inline-block" >Photo Gallery: { addPhoto }</Typography>
                     <Container component="main" maxWidth="lg">
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {photoData !== null && photoData.map((r, index) => (
