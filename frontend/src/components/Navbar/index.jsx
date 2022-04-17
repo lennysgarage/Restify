@@ -1,6 +1,6 @@
 import React from "react";
 import axios from 'axios';
-import { useEffect, useState, useReducer } from 'react';
+import { useEffect } from 'react';
 import authHeader from "../../services/auth-header";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,6 +17,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Container from '@mui/material/Container';
 import AuthService from "../../services/auth.service";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import NotificationList from "../NotificationList";
 
 export default function Navbar() {
 
@@ -28,6 +29,7 @@ export default function Navbar() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -141,18 +143,12 @@ export default function Navbar() {
                 </Typography>
               </Button>
 
-              <Button
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none'}}
-                >
-                <Typography variant="h5" color="white" sx={{ textDecoration: 'none' }}>
-                  Notifications
-                </Typography>
-              </Button>
-
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
+
+              <NotificationList />
+              
               <Tooltip title="Open settings">
                 <IconButton
                   size="large"
@@ -201,6 +197,7 @@ export default function Navbar() {
                 </MenuItem>
 
               </Menu>
+
             </Box>
 
           </Toolbar>

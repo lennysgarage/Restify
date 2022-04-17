@@ -24,14 +24,12 @@ export default function LandingPage() {
                     <Typography variant="h1">Search ANY restaurant.</Typography> {/* Probably remove this line */}
                     <SearchBar/>
                     <Grid container spacing={1} marginTop={1}>
-                        <Grid item xs={12}>
-                            <Logout/>
-                        </Grid>
+
                         <Grid item xs={6}>
                         </Grid>
                         <Grid item xs={6}>
-                            
                         </Grid>
+                        
                     </Grid>
                 </Box>
             </Box>
