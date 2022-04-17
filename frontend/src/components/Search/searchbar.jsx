@@ -33,7 +33,7 @@ export default function SearchBar() {
       </IconButton>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder="Search restify"
+        placeholder="Search Restify"
         inputProps={{ 'aria-label': 'search restify' }}
         onChange={handleInput}
       />
