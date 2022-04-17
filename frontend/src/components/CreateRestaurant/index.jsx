@@ -48,7 +48,7 @@ const CreateRestaurant = () => {
                         id="address-input"
                         name="address"
                         type="text"
-                        label="Adress"
+                        label="Address"
                         placeholder="Enter your restaurant's address."
                         fullWidth
                         required
