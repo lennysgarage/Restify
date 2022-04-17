@@ -10,7 +10,7 @@ export default function LandingPage() {
     return (
         <>
             <Box
-                height="90vh"
+                height="80vh"
                 bgcolor="primary"
                 display="flex"
                 alignItems="center"
