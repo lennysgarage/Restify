@@ -14,6 +14,7 @@ import { createBox } from '@mui/system';
 import { Paper } from '@mui/material';
 import EditPersonal from "./editPersonal";
 import EditAccount from "./editAccount";
+import EditAvatar from "./editAvatar";
 
 const API_URL = "http://localhost:8000/api/"
 
@@ -53,30 +54,29 @@ const DisplayProfile = () => {
                     justifyContent="flex-start"
                     spacing={2}
                 > 
-                <Typography variant="h1" sx={{fontWeight: 'bold', fontSize: '4rem'}}>Profile </Typography>
+                <Typography variant="h1" sx={{fontWeight: 'bold', fontSize: '3rem'}}>Profile </Typography>
                 {/* Avatar component */}
-                    <Grid item xs={12}>
-                        {/* <Avatar alt="Your profile picture" src={data.profile_photo} sx={{ width: 128, height: 128 }}>
-                            {data.first_name}
-                        </Avatar> */}
-                    </Grid>
-                    
+                <Grid item xs={12} sx={{justifyContent: 'center'}}>
+                    <Box
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center"
+                        fullWidth
+                    >
+                        <EditAvatar data={data} setData={setData} />
+                    </Box>
+                </Grid>
                     {/* Account subheading */}
                     <Paper elevation={4}>
                         <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2 }}>Account </Typography>
                         <EditAccount data={data} />
-
-                            {/* Email component (cant edit this)*/} 
-                            {/* Password component */}
                     </Paper>
-                    
                     {/* Personal details subheading */}
-                    <Paper elevation={4}>
+                    <Paper elevation={4} sx={{mt: 2, mb: 2}}>
                         <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2}}>Personal details </Typography>
                         <EditPersonal data={data} setData={setData} />
                     </Paper>
-                </Grid>
-                
+                </Grid> 
             )
         } else {
             return (
