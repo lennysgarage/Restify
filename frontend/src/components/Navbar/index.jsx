@@ -78,7 +78,7 @@ export default function Navbar() {
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
-                aria-label="account of current user"
+                aria-label="feed and restaurant"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
@@ -208,6 +208,99 @@ export default function Navbar() {
     );
   }
   else {
-    return <h1> Hi</h1>
+    return (
+      <AppBar position="static" sx={{backgroundColor: '#f78c25'}}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters>
+
+            <Button
+                onClick={handleCloseNavMenu}
+                sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none'}}
+              >
+              <Typography 
+                  variant="h4"
+                  noWrap
+                  sx={{ textDecoration: 'none'}}
+                  component={Link} 
+                  to="/"
+                  color="white" 
+                >
+                Restify
+              </Typography>
+            </Button>
+
+            <Box sx={{ flexGrow: 1 }}></Box>
+
+            <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="register and log in"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography component={Link} to="/register" variant="h6" color="black" sx={{ textDecoration: 'none' }}>
+                    Register
+                  </Typography>
+                </MenuItem>
+
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Typography component={Link} to="/login" variant="h6" color="black" sx={{ textDecoration: 'none' }}>
+                    Login
+                  </Typography>
+                </MenuItem>
+
+              </Menu>
+            </Box>
+
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+
+              <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none'}}
+                >
+                <Typography component={Link} to="/register" variant="h5" color="white" sx={{ textDecoration: 'none' }}>
+                  Register
+                </Typography>
+              </Button>
+
+              <Button
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block', textTransform: 'none'}}
+                >
+                <Typography component={Link} to="/login" variant="h5" color="white" sx={{ textDecoration: 'none' }}>
+                  Login
+                </Typography>
+              </Button>
+
+            </Box>
+
+          </Toolbar>
+        </Container>
+      </AppBar>
+    );
   }
 }
