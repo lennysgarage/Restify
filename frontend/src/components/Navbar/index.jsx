@@ -51,7 +51,7 @@ export default function Navbar() {
         })
     .then(response => setStatus(response.status))
     .catch(err => setStatus(err.response.status))
-  })
+  }, [])
 
   if (status === 200) {
     return (
