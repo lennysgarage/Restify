@@ -8,10 +8,10 @@ import DisplayProfile from "../../components/Profile/displayProfile";
 export default function ProfilePage() {
 
     return (
-        <Container component="main" maxWidth="sm">
+        <Container component="main" maxWidth="md">
             <Box 
                 sx={{
-                marginTop: 8,
+                marginTop: 4,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
