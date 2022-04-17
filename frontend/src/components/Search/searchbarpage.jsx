@@ -5,25 +5,22 @@ import InputBase from '@mui/material/InputBase';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import searchRequest from './searchrequest';
 
-export default function SearchBar() {
-  
-      const [query, setQuery] = useState("");
-
+export default function SearchBar(props) {
+    const [query, setQuery] = useState("");
 
     const search = (event) => {
         event.preventDefault();
-        searchRequest(query)
-          .then(response => {console.log(response.data)});
-        window.history.replaceState(null, "Search", "/search/q=?" + query);
+        props.setQuery(query);
+        window.history.replaceState(null, "Search", "/search/?q=" + query);
+
     }
-  
-  
-      const handleInput = (event) => {
+        
+        
+    const handleInput = (event) => {
         setQuery(event.target.value);
-        search(event);
-      }
+        props.setQuery(event.target.value);
+    }
   
     return (
       <Paper
