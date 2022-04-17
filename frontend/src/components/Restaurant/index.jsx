@@ -127,7 +127,8 @@ const Restaurant = ({ id }) => {
                 </Box>
                 <TabPanel value="1" >
                     <div style={{ backgroundImage: `url(${restaurantData.logo})`}}>
-                        <Typography align="right"> { edit } <br /> { logo } </Typography>
+                        <Typography align="right"> { edit } </Typography> 
+                        <Typography align="right" component="span"> { logo } </Typography>
                         <Typography variant="h1" bgcolor="rgba(0,0,0,0.7)" color="white" display="inline-block" >{ restaurantData.name }</Typography>
                         <br/>
                         <br/>
@@ -141,7 +142,7 @@ const Restaurant = ({ id }) => {
                     <br/>
                     <Typography variant="h5" align="left" fontWeight='bold'> Phone: { restaurantData.phone_number }</Typography>
                     <br/>
-                    <Typography variant="h5" color="black" display="inline-block" >Photo Gallery: { addPhoto }</Typography>
+                    <Typography variant="h5" color="black" display="inline-block" component="span">Photo Gallery: { addPhoto }</Typography>
                     <Container component="main" maxWidth="lg">
                         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                             {photoData !== null && photoData.map((r, index) => (

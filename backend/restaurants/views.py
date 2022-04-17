@@ -170,7 +170,7 @@ class AddPhoto(generics.CreateAPIView):
     serializer_class = AddPhotoSerializer
 
     def get_object(self):
-        return get_object_or_404(self.queryset, id=self.kwargs['restaurant_id'], restaurant__email=self.request.user.email)
+        return get_object_or_404(self.queryset, restaurant__id=self.kwargs['restaurant_id'], restaurant__email=self.request.user.email)
     
 class RemovePhoto(generics.DestroyAPIView):
     queryset = RestaurantImage.objects.all()
@@ -181,8 +181,9 @@ class RemovePhoto(generics.DestroyAPIView):
         return get_object_or_404(self.queryset, id=self.kwargs['restaurantimage_id'], restaurant__id=self.kwargs['restaurant_id'])
 
 class GetPhotos(generics.ListAPIView):
-    queryset = RestaurantImage.objects.all()
     serializer_class = RemovePhotoSerializer
 
-    def get_object(self):
-        return get_object_or_404(self.queryset, id=self.kwargs['restaurant_id'])
+    def get_queryset(self):
+        query = get_object_or_404(Restaurant, id=self.kwargs['restaurant_id'])
+        object_list = RestaurantImage.objects.filter(restaurant__id = query.id)
+        return object_list
