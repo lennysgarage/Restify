@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 export default function Follow({ restaurantId, userId }) {
 
   const [isFollowed, setIsFollowed] = React.useState(false);
+  const [numFollows, setNumFollows] = React.useState(0);
 
   const handleClick = () => {
     if (isFollowed) {
@@ -25,6 +26,7 @@ export default function Follow({ restaurantId, userId }) {
         headers: authHeader()
     })
     .then(response => {
+      setNumFollows(numFollows + 1)
       setIsFollowed(true)
     })
   }
@@ -35,6 +37,7 @@ export default function Follow({ restaurantId, userId }) {
         headers: authHeader()
     })
     .then(response => {
+      setNumFollows(numFollows - 1)
       setIsFollowed(false)
     })
   }
@@ -45,8 +48,11 @@ export default function Follow({ restaurantId, userId }) {
     })
     .then(response => {
       response.data.results.forEach(follow => {
-        if (follow.restaurant === parseInt(restaurantId) && follow.follower === parseInt(userId)) {
+        if (follow.restaurant === parseInt(restaurantId)) {
           setIsFollowed(true)
+          if (follow.follower === parseInt(userId)) {
+            setNumFollows(numFollows + 1)
+          }
         }
       })
     })
@@ -66,7 +72,7 @@ export default function Follow({ restaurantId, userId }) {
             sx={{ textDecoration: 'none'}}
             color="white" 
           >
-          Unfollow
+          Unfollow: {numFollows}
         </Typography>
       </Button>
     )
@@ -84,7 +90,7 @@ export default function Follow({ restaurantId, userId }) {
             sx={{ textDecoration: 'none'}}
             color="white" 
           >
-          Follow
+          Follow: {numFollows}
         </Typography>
       </Button>
     )

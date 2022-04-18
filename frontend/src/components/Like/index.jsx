@@ -50,7 +50,7 @@ export default function Like({ restaurantId, userId }) {
       response.data.results.forEach(like => {
         if (like.restaurant === parseInt(restaurantId)) {
           setNumLikes(numLikes + 1)
-          if (like.likedby === userId ) {
+          if (like.likedby === parseInt(userId)) {
             setIsLiked(true)
           }
         }
