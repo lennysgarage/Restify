@@ -9,9 +9,42 @@ import { Alert } from '@mui/material';
 
 const API_URL = "http://localhost:8000/api/";
 
+const defaultValues = {
+    first_name: "",
+    last_name: "",
+    country_code: "",
+    phone_number: ""
+}
 
 export default function EditPersonal(props) {
     const [success, setSuccess] = useState(false);
+    const [errors, setErrors] = useState(defaultValues);
+
+
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'first_name') {
+                tempValues.first_name = pair[1] ? "" : "Enter your first name"; 
+            }
+            if (pair[0] === 'last_name') {
+                tempValues.last_name = pair[1] ? "" : "Enter your last name"; 
+            }
+            if (pair[0] === 'country_code') {
+                tempValues.country_code = /^[a-zA-Z]{2,3}$/.test(pair[1]) ? "" : "Enter a valid country code (CA)";
+            }
+            if (pair[0] === 'phone_number') {
+                tempValues.phone_number = /^\d{10}$/.test(pair[1])
+                    ? "" : "Enter a phone number like 5555555555";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -19,14 +52,23 @@ export default function EditPersonal(props) {
         const mergedObject = {
             ...data,
             ...props.data
+        };
+        if (validate(data)) {
+            fetch(API_URL + "accounts/profile/edit/", {
+                method: 'PATCH',
+                headers: authHeader(),
+                body: data
+            });
+            props.setData(mergedObject);
+            setSuccess(true);
         }
-        fetch(API_URL + "accounts/profile/edit/", {
-            method: 'PATCH',
-            headers: authHeader(),
-            body: data
-        });
-        props.setData(mergedObject);
-        setSuccess(true);
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value);
+        validate(data);
     }
 
     return (
@@ -43,6 +85,9 @@ export default function EditPersonal(props) {
                             placeholder={props.data.first_name}
                             defaultValue={props.data.first_name}
                             fullWidth
+                            onChange={handleChange}
+                            error={errors.first_name !== ''}
+                            helperText={errors.first_name}
                             autoComplete="name"
                             autoFocus
                         />
@@ -57,6 +102,9 @@ export default function EditPersonal(props) {
                             placeholder={props.data.last_name}
                             defaultValue={props.data.last_name}
                             fullWidth
+                            onChange={handleChange}
+                            error={errors.last_name !== ''}
+                            helperText={errors.last_name}
                             autoComplete="name"
                             autoFocus
                         />
@@ -71,6 +119,9 @@ export default function EditPersonal(props) {
                             placeholder={props.data.country_code}
                             defaultValue={props.data.country_code}
                             fullWidth
+                            onChange={handleChange}
+                            error={errors.country_code !== ''}
+                            helperText={errors.country_code}
                             autoFocus
                         />
                 </Grid>
@@ -84,6 +135,9 @@ export default function EditPersonal(props) {
                             placeholder={props.data.phone_number}
                             defaultValue={props.data.phone_number}
                             fullWidth
+                            onChange={handleChange}
+                            error={errors.phone_number !== ''}
+                            helperText={errors.phone_number}
                             autoFocus
                         />
                 </Grid>

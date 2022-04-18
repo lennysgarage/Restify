@@ -44,6 +44,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     AuthService.logout();
+    setStatus(0);
     handleCloseUserMenu();
     navigate('/')
   };
@@ -54,7 +55,7 @@ export default function Navbar() {
         })
     .then(response => setStatus(response.status))
     .catch(err => setStatus(err.response.status))
-  }, [])
+  }, [status])
 
   if (status === 200) {
     return (
