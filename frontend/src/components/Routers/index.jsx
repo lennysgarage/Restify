@@ -13,6 +13,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import EditRestaurantPage from "../../pages/EditRestaurantPage";
 import AddMenuPage from "../../pages/AddMenuPage";
 import EditMenuPage from "../../pages/EditMenuPage";
+import AddCommentPage from "../../pages/AddCommentPage";
 
 const Router = () => {
     return (
@@ -33,6 +34,7 @@ const Router = () => {
                     <Route path="restaurant/menu/:menu_id" element={<EditMenuPage />} />
                     <Route path="restaurant/:restaurant_id/addblog" element={<AddBlogPage />} />
                     <Route path="restaurant/:restaurant_id/blog/:blog_id" element={<BlogPage />} />
+                    <Route path="restaurant/:restaurant_id/addcomment" element={<AddCommentPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

@@ -33,6 +33,7 @@ const Restaurant = ({ id }) => {
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
     const [addBlog, setAddBlog] = useState("");
+    const [addComment, setAddComment] = useState("");
     const [status, setStatus] = useState(0);
     const [restaurantData, setRestaurantData] = useState(0);
     const [photoData, setPhotoData] = useState(null);
@@ -115,6 +116,16 @@ const Restaurant = ({ id }) => {
                         to={`/restaurant/${id}/addblog`}
                     >
                         Add a Blog
+                    </Button>)
+                    setAddComment(<Button
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 3, mb: 3 }}
+                        style={{ backgroundColor: '#f78c25' }}
+                        component={Link}
+                        to={`/restaurant/${id}/addcomment`}
+                    >
+                        Add a Comment
                     </Button>)
                     setLogo(<ChangeLogo />)
                     setAddPhoto(<AddPhoto id={id} />)
@@ -235,7 +246,7 @@ const Restaurant = ({ id }) => {
                         </Container>
                     </TabPanel>
                     <TabPanel value="2" >
-                        <Typography variant="h5" color="black" display="inline-block" component="span">Menu: {addMenu}</Typography>
+                        <Typography variant="h5" color="black" display="inline-block" component="span">{addMenu}</Typography>
                         <Container component="main" maxWidth="lg">
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {menuData !== null && menuData.map((r, index) => (
@@ -282,7 +293,7 @@ const Restaurant = ({ id }) => {
                         </Container>
                     </TabPanel>
                     <TabPanel value="3">
-                        <Typography variant="h5" color="black" display="inline-block" component="span">Blogs: {addBlog}</Typography>
+                        <Typography variant="h5" color="black" display="inline-block" component="span">{addBlog}</Typography>
                         <Container component="main" maxWidth="lg">
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {blogs !== null && blogs.map((r, index) => (
@@ -318,7 +329,25 @@ const Restaurant = ({ id }) => {
                             />
                         </Container>
                     </TabPanel>
-                    <TabPanel value="4">{addBlog}</TabPanel>
+                    <TabPanel value="4">
+                    <Typography variant="h5" color="black" display="inline-block" component="span">{addComment}</Typography>
+                        <Container component="main" maxWidth="lg">
+                            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                                {blogs !== null && blogs.map((r, index) => (
+                                    <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2 }}>
+                                        
+                                    </Grid>
+                                ))}
+                            </Grid>
+                            <Pagination
+                                count={count3}
+                                page={page3}
+                                variant="outlined"
+                                color="primary"
+                                onChange={handlePageChange3}
+                            />
+                        </Container>
+                    </TabPanel>
                 </TabContext>
             </Box>
         )
