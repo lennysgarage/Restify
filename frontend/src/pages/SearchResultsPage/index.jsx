@@ -34,7 +34,7 @@ export default function SearchResultsPage() {
     }
 
     return (
-        <Container component="main" maxWidth="lg" sx={{ p: 2, m: 2}}>
+        <Container component="main" maxWidth="xl" sx={{ p: 2, m: 2}}>
             <SearchBar setQuery={setQuery}/>
             {/* // map through the data */}
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
