@@ -67,7 +67,7 @@ class EditUser(generics.UpdateAPIView):
 
 # notifications/
 class GetNotifications(generics.ListAPIView):
-    queryset = Notification.objects.all().order_by('date') 
+    queryset = Notification.objects.all().order_by('-date') 
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = NotificationSerializer
 

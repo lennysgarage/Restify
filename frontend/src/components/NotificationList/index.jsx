@@ -36,7 +36,11 @@ export default function NotificationList() {
     axios.get("http://localhost:8000/api/accounts/notifications", {
         headers: authHeader()
     })
-    .then(response => {setLoading(false); setNotifications(response.data.results)})
+    .then(response => {
+      console.log(response.data.results)
+      setLoading(false) 
+      setNotifications(response.data.results)
+    })
     .catch(err => setLoading(false)); 
   }, [loading])
 
@@ -125,7 +129,7 @@ export default function NotificationList() {
           notifications.map(notif => (
             <MenuItem key={ notif.id } onClick={() =>  handleClickNotif(notif.id) }>
               <Typography variant="p" color="black" sx={{ textDecoration: 'none' }}>
-                { notif.title }
+                { notif.content }
               </Typography>
             </MenuItem>
         )))}
