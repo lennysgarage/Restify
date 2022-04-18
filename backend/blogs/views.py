@@ -1,3 +1,5 @@
+from django.db import IntegrityError
+from django.http import JsonResponse
 from rest_framework import generics
 from rest_framework import permissions
 from .serializers import AddBlogSerializer, BlogSerializer, LikeBlogSerializer, LikesBlogSerializer, RemoveBlogSerializer
@@ -53,6 +55,15 @@ class LikeBlogView(generics.CreateAPIView):
     queryset = LikeBlog.objects.all()
     permissions_classes = [permissions.IsAuthenticated]
     serializer_class = LikeBlogSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError:
+            return JsonResponse({
+                'status_code': 403,
+                'error': 'User can only like the same blog once.'
+            })
 
 class UnLikeBlogView(generics.DestroyAPIView):
     queryset = LikeBlog.objects.all()
