@@ -37,6 +37,7 @@ const ChangeLogo = () => {
                  <input
                         hidden
                         name="logo"
+                        accept="image/*"
                         type="file"
                         onChange={ handleSubmit }
                     />
