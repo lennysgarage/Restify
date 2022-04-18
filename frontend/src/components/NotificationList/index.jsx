@@ -37,7 +37,6 @@ export default function NotificationList() {
         headers: authHeader()
     })
     .then(response => {
-      console.log(response.data.results)
       setLoading(false) 
       setNotifications(response.data.results)
     })
