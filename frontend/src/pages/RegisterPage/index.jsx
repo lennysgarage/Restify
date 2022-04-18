@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 export default function RegisterPage() {
     
     return (
-        <Container component="main" maxWidth="sm">
+        <Container component="main" maxWidth="lg">
             <Box 
                 sx={{
                 marginTop: 8,
@@ -16,7 +16,7 @@ export default function RegisterPage() {
                 alignItems: 'center',
             }}
             >
-            <Typography component="h1" variant="h5">
+            <Typography component="h1" variant="h3">
             Register
             </Typography>
 
