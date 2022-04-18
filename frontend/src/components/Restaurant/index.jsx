@@ -35,7 +35,6 @@ const Restaurant = ({ id }) => {
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
     const [addBlog, setAddBlog] = useState("");
-    const [addComment, setAddComment] = useState("");
     const [status, setStatus] = useState(0);
     const [restaurantData, setRestaurantData] = useState(0);
     const [photoData, setPhotoData] = useState(null);
@@ -133,16 +132,6 @@ const Restaurant = ({ id }) => {
                         to={`/restaurant/${id}/addblog`}
                     >
                         Add a Blog
-                    </Button>)
-                    setAddComment(<Button
-                        variant="contained"
-                        color="primary"
-                        sx={{ mt: 3, mb: 3 }}
-                        style={{ backgroundColor: '#f78c25' }}
-                        component={Link}
-                        to={`/restaurant/${id}/addcomment`}
-                    >
-                        Add a Comment
                     </Button>)
                     setLogo(<ChangeLogo />)
                     setAddPhoto(<AddPhoto id={id} />)
@@ -366,7 +355,17 @@ const Restaurant = ({ id }) => {
                         </Container>
                     </TabPanel>
                     <TabPanel value="4">
-                        <Typography variant="h5" color="black" display="inline-block" component="span">{addComment}</Typography>
+                        <Typography variant="h5" color="black" display="inline-block" component="span">
+                            <Button
+                                variant="contained"
+                                color="primary"
+                                sx={{ mt: 3, mb: 3 }}
+                                style={{ backgroundColor: '#f78c25' }}
+                                component={Link}
+                                to={`/restaurant/${id}/addcomment`}
+                            >Add a Comment
+                            </Button>
+                        </Typography>
                         <Container component="main" maxWidth="lg">
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {comments !== null && comments.map((r, index) => (
