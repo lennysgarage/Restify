@@ -30,9 +30,10 @@ const AddPhoto = ({ id }) => {
                 variant="contained"
                 component="label"
                 color="primary"
-                sx={{ mt: 3, mb: 2 }}
+                sx={{ mt: 3, mb: 3 }}
                 style={{backgroundColor: '#f75000'}}
-            > Add a Photo      
+            > 
+            Add a Photo      
             <input
                     hidden
                     name="img"

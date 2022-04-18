@@ -24,7 +24,7 @@ const AddBlog = ({ id }) => {
             })
         .then((res) => {
             console.log(res)
-            navigate(`/restaurant/${id}/blog/${res.data.id}`)
+            navigate(`/blog/${res.data.id}`)
         })
     }
     
@@ -43,7 +43,7 @@ const AddBlog = ({ id }) => {
 
     if (owner) {
         return (
-            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1}}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
                 <Grid container alignItems="center" justifyItems="center">
                     <Grid item xs={12}>
                         <TextField
@@ -92,7 +92,7 @@ const AddBlog = ({ id }) => {
                         color="primary"
                         type="submit"
                         fullWidth
-                        sx={{ mt: 3, mb: 2 }}
+                        sx={{ mt: 3, mb: 3 }}
                         style={{backgroundColor: '#f75000'}}
                     >
                             Add Blog

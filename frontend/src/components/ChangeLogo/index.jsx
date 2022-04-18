@@ -31,7 +31,7 @@ const ChangeLogo = () => {
                     variant="contained"
                     component="label"
                     color="primary"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mr: 3 }}
                     style={{backgroundColor: '#f75000'}}
                 > Change Logo     
                  <input

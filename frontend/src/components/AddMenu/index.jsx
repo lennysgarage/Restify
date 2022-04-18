@@ -26,7 +26,7 @@ const AddMenu = () => {
     }
 
     return (
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1}}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <Grid container alignItems="center" justifyItems="center">
                 <Grid item xs={12}>
                     <TextField
@@ -74,7 +74,7 @@ const AddMenu = () => {
                     component="label"
                     color="primary"
                     style={{backgroundColor: '#f78c25'}}
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 2 }}
                 >
                     Upload a Photo of the menu Item
                     <input
@@ -88,7 +88,7 @@ const AddMenu = () => {
                     color="primary"
                     type="submit"
                     fullWidth
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 4 }}
                     style={{backgroundColor: '#f75000'}}
                 >
                         Add Menu Item

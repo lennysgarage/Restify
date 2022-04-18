@@ -1,59 +1,64 @@
-import React, {useEffect, useState} from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import authHeader from "../../services/auth-header";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import authHeader from "../../services/auth-header";
-import axios from 'axios';
-
-
-
-const API_URL = "http://localhost:8000/api/"
+import { Card, CardActionArea, CardHeader, Container, Pagination } from '@mui/material';
 
 
 const Feed = () => {
-    const [data, setData] = useState(null);
-    const [loaded, setLoaded] = useState(false);
 
-    const fetchFeed = () => {
-        return axios.get(API_URL + 'blogs/feed', {
-            headers: authHeader()       
-        })
+    let navigate = useNavigate();
+    const [page, setPage] = useState(1);
+    const [count, setCount] = useState(1);
+    const PER_PAGE = 4;
+    const [data, setData] = useState(null);
+
+    const handlePageChange = (e, p) => {
+        setPage(p);
     }
 
     useEffect(() => {
-        fetchFeed()
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(response)
-                    setData(response);
-                } else {
-                    setData(null);
-                }
-                setLoaded(true);
-            }).catch(err => {
-                setData(null);
-                setLoaded(true);
-            });
-    }, []);
+         axios.get(`http://localhost:8000/api/blogs/feed/?page=` + page, {
+             headers: authHeader()
+         })
+        .then(response => {
+            setData(response.data.results);
+            setCount(Math.ceil(response.data.count/PER_PAGE));
+         })
+    }, [page])
 
-    if (loaded === true) {
-        if (data !== null) {
-            return (
-                <Typography variant="h2">Yes</Typography>
-            )
-        } else {
-            return (
-                <Typography variant="h2">You are not logged in, <Link to="/login" >click here to login!</Link></Typography>
-            );
-        }
-    } else {
-        return (
-            <Typography variant="h2">Loading feed...</Typography>
-        );
-    }
+    return (
+        <Box sx={{ width: '100%', typography: 'body1', mt: 1 }}>
+            <Container component="main" maxWidth="lg">
+                <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                    {data !== null && data.map((r, index) => (
+                        <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2}}>
+                        <CardActionArea component={Link} to={ `/blog/${r.id}` }>
+                            <Card sx={{ maxWidth: 345 }}>
+                                <CardHeader
+                                    title={r.header}
+                                    subheader={`
+                                        ${r.subtext}
+                                        `}
+                                />
+                            </Card>
+                        </CardActionArea>
+                        </Grid>
+                    ))}
+                    </Grid>
+                <Pagination
+                    count={count}
+                    page={page}
+                    variant="outlined"
+                    color="primary"
+                    onChange={handlePageChange}
+                />
+        </Container> 
+        </Box>
+        )
 }
+
 
 export default Feed;
