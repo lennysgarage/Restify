@@ -15,7 +15,9 @@ class AuthService {
                     localStorage.setItem("user", JSON.stringify(response.data))
                 }
                 return response.data;
-            });
+            })
+            .catch((error) => {
+                return {status: 401} });
     }
 
     logout() {
