@@ -17,7 +17,7 @@ export default function LandingPage() {
                 justifyContent="center"
                 textAlign="center"
             >
-                <Box width="60%">
+                <Box width="52%">
                     {/* need navbar component */}
                     {/* need main title component */}
                     {/* need search bar component */}
