@@ -18,7 +18,7 @@ class AddBlogSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Blog
-        fields = ('date', 'header', 'subtext', 'body', 'restaurant')
+        fields = ('id', 'date', 'header', 'subtext', 'body', 'restaurant')
 
     def create(self, data):
         return Blog.objects.create(**data)
