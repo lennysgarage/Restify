@@ -7,23 +7,54 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-const EditMenu = ({ id }) => {
 
-    let navigate = useNavigate();
+const defaultValues = {
+    name: "",
+    price: "",
+    description: ""
+}
+
+const EditMenu = ({ id }) => {
+    const [errors, setErrors] = useState(defaultValues);
     const [owner, setOwner] = useState(false);
     const [data, setData] = useState(null);
+
+    let navigate = useNavigate();
+
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'name') {
+                tempValues.name = pair[1] ? "" : "Enter item's name"; 
+            }
+            if (pair[0] === 'price') {
+                tempValues.price = parseFloat(pair[1]) ? "" : "Enter item's price";
+            }
+            if (pair[0] === 'description') {
+                tempValues.description = pair[1] ? "" : "Enter item's description";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        fetch(`http://localhost:8000/api/restaurants/editmenu/${id}/`, {
-            method: 'PATCH',
-            body: data,
-            headers: authHeader()
-        })
-        .then((res) => {
-            navigate("/restaurant")
-        })
+        if (validate(data)) {
+            fetch(`http://localhost:8000/api/restaurants/editmenu/${id}/`, {
+                method: 'PATCH',
+                body: data,
+                headers: authHeader()
+            })
+            .then((res) => {
+                navigate("/restaurant")
+            })
+        }
     }
 
     const handlePhoto = (e) => {
@@ -50,6 +81,14 @@ const EditMenu = ({ id }) => {
         .catch(err => err)   
     }, [id])
 
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value)
+        validate(data);
+    }
+
     if (owner) {
         return (
             <Box sx={{ mt: 1}}>
@@ -64,6 +103,7 @@ const EditMenu = ({ id }) => {
             <input
                 hidden
                 name="photo"
+                accept="image/*"
                 type="file"
                 onChange={ handlePhoto }
             />
@@ -80,7 +120,9 @@ const EditMenu = ({ id }) => {
                         placeholder={data.name}
                         defaultValue={data.name}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.name !== ''}
+                        helperText={errors.name}
                         autoComplete="name"
                         autoFocus
                     />
@@ -95,7 +137,9 @@ const EditMenu = ({ id }) => {
                         placeholder={data.price}
                         defaultValue={data.price}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.price !== ''}
+                        helperText={errors.price}
                         autoComplete="price"
                         autoFocus
                     />
@@ -111,7 +155,9 @@ const EditMenu = ({ id }) => {
                         fullWidth
                         placeholder={data.description}
                         defaultValue={data.description}
-                        required
+                        onChange={handleChange}
+                        error={errors.description !== ''}
+                        helperText={errors.description}
                         autoComplete="description"
                     />
                 </Grid>
