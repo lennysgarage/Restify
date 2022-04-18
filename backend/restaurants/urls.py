@@ -13,6 +13,7 @@ urlpatterns = [
     path('addmenu/', views.AddMenuItem.as_view()),
     path('<int:restaurant_id>/menu/', views.ViewMenuItems.as_view()),
     path('editmenu/<int:menuitem_id>/', views.EditMenuItem.as_view()),
+    path('menu/<int:menuitem_id>/', views.GetMenuItem.as_view()),
     path('<int:restaurant_id>/addcomment/', views.AddComment.as_view()),
     path('<int:restaurant_id>/comments/', views.ViewComments.as_view()),
     path('<int:restaurant_id>/follow/', views.FollowView.as_view()),

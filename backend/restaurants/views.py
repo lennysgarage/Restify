@@ -93,6 +93,14 @@ class EditMenuItem(generics.UpdateAPIView):
     def get_object(self):
         return get_object_or_404(self.queryset, id=self.kwargs['menuitem_id'], restaurant__email=self.request.user.email)
 
+class GetMenuItem(generics.RetrieveAPIView):
+    queryset = MenuItem.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = EditMenuItemSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.queryset, id=self.kwargs['menuitem_id'], restaurant__email=self.request.user.email)
+
 class AddComment(generics.CreateAPIView):
     queryset = Comment.objects.all()
     permission_classes = [permissions.IsAuthenticated]

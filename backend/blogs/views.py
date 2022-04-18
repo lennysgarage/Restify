@@ -18,6 +18,13 @@ class ViewBlogs(generics.ListAPIView):
         object_list = Blog.objects.filter(restaurant__email = query.owner)
         return object_list
 
+class GetBlog(generics.RetrieveAPIView):
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    
+    def get_object(self):
+        return get_object_or_404(self.queryset, id=self.kwargs['blog_id'])
+
 class RemoveBlog(generics.DestroyAPIView):
     queryset = Blog.objects.all()
     permission_classes = [permissions.IsAuthenticated]

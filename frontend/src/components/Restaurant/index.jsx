@@ -14,7 +14,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import { ThemeProvider } from '@emotion/react';
-import { Avatar, Card, CardContent, CardHeader, CardMedia, Container, Pagination } from '@mui/material';
+import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Container, Pagination } from '@mui/material';
 import ChangeLogo from '../ChangeLogo';
 import AddPhoto from '../AddPhoto';
 
@@ -25,6 +25,8 @@ const Restaurant = ({ id }) => {
     const [count, setCount] = useState(1);
     const [page2, setPage2] = useState(1);
     const [count2, setCount2] = useState(1);
+    const [page3, setPage3] = useState(1);
+    const [count3, setCount3] = useState(1);
     const PER_PAGE = 4;
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
@@ -36,6 +38,7 @@ const Restaurant = ({ id }) => {
     const [addPhoto, setAddPhoto] = useState("");
     const [addMenu, setAddMenu] = useState("");
     const [menuData, setMenuData] = useState(null);
+    const [blogs, setBlogs] = useState(null);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -47,6 +50,10 @@ const Restaurant = ({ id }) => {
 
     const handlePageChange2 = (e, p) => {
         setPage2(p);
+    }
+
+    const handlePageChange3 = (e, p) => {
+        setPage3(p);
     }
 
     const customTheme = createTheme({
@@ -61,6 +68,13 @@ const Restaurant = ({ id }) => {
                 headers: authHeader()
                 })
             .then(response => navigate('/restaurant'))
+    }
+
+    function handleClick2(blog) {
+        axios.delete(`http://localhost:8000/api/blogs/removeblog/${blog}`, {
+            headers: authHeader()
+            })
+        .then(response => navigate('/restaurant'))
     }
 
     const handleSubmit = (e) => {
@@ -126,8 +140,13 @@ const Restaurant = ({ id }) => {
         .then(response => {
             setMenuData(response.data.results);
             setCount2(Math.ceil(response.data.count/PER_PAGE));
-         });
-    }, [id, page, page2])
+         })
+         axios.get(`http://localhost:8000/api/blogs/${id}/?page=` + page3)
+        .then(response => {
+            setBlogs(response.data.results);
+            setCount3(Math.ceil(response.data.count/PER_PAGE));
+         })
+    }, [id, page, page2, page3])
 
     if (status === 404) {
         return (
@@ -247,7 +266,43 @@ const Restaurant = ({ id }) => {
                         />
                     </Container> 
                 </TabPanel>
-                <TabPanel value="3">{ addBlog }</TabPanel>
+                <TabPanel value="3">
+                    <Typography variant="h5" color="black" display="inline-block" component="span">Blogs: { addBlog }</Typography>
+                    <Container component="main" maxWidth="lg">
+                        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+                            {blogs !== null && blogs.map((r, index) => (
+                                <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2}}>
+                                <CardActionArea component={Link} to={ `/blog/${r.id}` }>
+                                    <Card sx={{ maxWidth: 345 }}>
+                                        <CardHeader
+                                            title={r.header}
+                                            subheader={`
+                                                ${r.subtext}
+                                                `}
+                                        />
+                                    </Card>
+                                </CardActionArea>
+                                    { (status === 200 ? <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            sx={{ mt: 3, mb: 2 }}
+                                                            style={{backgroundColor: '#f78c25'}}
+                                                            onClick={() => { handleClick2(r.id) } }
+                                                            >
+                                                        Remove Blog
+                                                    </Button> : "") }
+                                </Grid>
+                            ))}
+                            </Grid>
+                        <Pagination
+                            count={count3}
+                            page={page3}
+                            variant="outlined"
+                            color="primary"
+                            onChange={handlePageChange3}
+                        />
+                    </Container> 
+                    </TabPanel>
                 <TabPanel value="4">{ addBlog }</TabPanel>
               </TabContext>
             </Box>

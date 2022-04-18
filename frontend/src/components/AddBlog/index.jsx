@@ -23,8 +23,8 @@ const AddBlog = ({ id }) => {
             headers: authHeader()
             })
         .then((res) => {
-            console.log(id, res)
-            navigate(`/restaurant/${id}/blog/}`)
+            console.log(res)
+            navigate(`/restaurant/${id}/blog/${res.data.id}`)
         })
     }
     
