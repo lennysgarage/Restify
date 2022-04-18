@@ -89,6 +89,16 @@ const Restaurant = ({ id }) => {
             .then(response => navigate('/restaurant'))
     }
 
+    // function getName(userId) {
+    //     axios.get(`http://localhost:8000/api/accounts/user/${userId}`, {
+    //         headers: authHeader()
+    //     })
+    //         .then(response => {
+    //             console.log(response.data.first_name + " " + response.data.last_name)
+    //             return (response.data.first_name + " " + response.data.last_name)
+    //         })
+    // }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
@@ -178,7 +188,21 @@ const Restaurant = ({ id }) => {
             })
         axios.get(`http://localhost:8000/api/restaurants/${id}/comments/?page=` + page4)
             .then(response => {
+                if (response.data.results !== null) {
+                    response.data.results.forEach(comment => {
+                        axios.get(`http://localhost:8000/api/accounts/user/${comment.owner}`, {
+                            headers: authHeader()
+                        })
+                            .then(response2 => {
+                                comment.name = response2.data.first_name + " " + response2.data.last_name
+                            })
+                    })
+                }
+
+                console.log(response.data.results)
+
                 setComments(response.data.results);
+
                 setCount4(Math.ceil(response.data.count / PER_PAGE));
             })
     }, [id, page, page2, page3, page4])
@@ -342,14 +366,14 @@ const Restaurant = ({ id }) => {
                         </Container>
                     </TabPanel>
                     <TabPanel value="4">
-                    <Typography variant="h5" color="black" display="inline-block" component="span">{addComment}</Typography>
+                        <Typography variant="h5" color="black" display="inline-block" component="span">{addComment}</Typography>
                         <Container component="main" maxWidth="lg">
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                                 {comments !== null && comments.map((r, index) => (
                                     <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2 }}>
                                         <Card sx={{ maxWidth: 345 }}>
                                             <CardHeader
-                                                title={r.id}
+                                                title={r.name}
                                                 subheader={`
                                             ${r.body}
                                             `}
