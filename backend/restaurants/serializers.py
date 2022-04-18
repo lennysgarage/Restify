@@ -107,6 +107,11 @@ class FollowSerializer(serializers.ModelSerializer):
 
         return follow
 
+class FollowsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = '__all__'
+
 class LikesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like

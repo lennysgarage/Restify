@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import viewsets
-from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
+from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, FollowsSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
  AddCommentSerializer, CommentSerializer, AddMenuItemSerializer, FollowSerializer
 from .models import Like, MenuItem, Restaurant, RestaurantImage, User, Comment, Follow
 from django.db.models import Count
@@ -137,12 +137,13 @@ class Unfollow(generics.DestroyAPIView):
         return get_object_or_404(self.queryset, restaurant=self.kwargs['restaurant_id'], follower__email=self.request.user.email)
 
 class ViewFollowers(generics.ListAPIView):
-    serializer_class = FollowSerializer
+    queryset = Follow.objects.all()
+    serializer_class = FollowsSerializer
 
-    def get_queryset(self):
-        query = get_object_or_404(Restaurant, id=self.kwargs['restaurant_id'])
-        object_list = Follow.objects.filter(restaurant__id = query.id)
-        return object_list
+    # def get_queryset(self):
+    #     query = get_object_or_404(Restaurant, id=self.kwargs['restaurant_id'])
+    #     object_list = Follow.objects.filter(restaurant__id = query.id)
+    #     return object_list
 
 class Likes(generics.ListAPIView):
     queryset = Like.objects.all()

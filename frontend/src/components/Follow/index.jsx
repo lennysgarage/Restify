@@ -7,58 +7,52 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-export default function Like({ restaurantId, userId }) {
+export default function Follow({ restaurantId, userId }) {
 
-  const [isLiked, setIsLiked] = React.useState(false);
-  const [numLikes, setNumLikes] = React.useState(0);
+  const [isFollowed, setIsFollowed] = React.useState(false);
 
   const handleClick = () => {
-    if (isLiked) {
-      handleUnlike()
+    if (isFollowed) {
+      handleUnfollow()
     } else {
-      handleLike()
+      handleFollow()
     }
   }
 
-  const handleLike = () => {
-    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/like/`, {
+  const handleFollow = () => {
+    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/follow/`, {
         method: 'POST',
         headers: authHeader()
     })
     .then(response => {
-      setNumLikes(numLikes + 1)
-      setIsLiked(true)
+      setIsFollowed(true)
     })
   }
 
-  const handleUnlike = () => {
-    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/unlike/`, {
+  const handleUnfollow = () => {
+    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/unfollow/`, {
         method: 'DELETE',
         headers: authHeader()
     })
     .then(response => {
-      setNumLikes(numLikes - 1)
-      setIsLiked(false)
+      setIsFollowed(false)
     })
   }
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/restaurants/likes/", {
+    axios.get("http://localhost:8000/api/restaurants/followers/", {
         headers: authHeader()
     })
     .then(response => {
-      response.data.results.forEach(like => {
-        if (like.restaurant === restaurantId) {
-          setNumLikes(numLikes + 1)
-          if (like.likedby === userId ) {
-            setIsLiked(true)
-          }
+      response.data.results.forEach(follow => {
+        if (follow.restaurant === restaurantId && follow.follower === userId) {
+          setIsFollowed(true)
         }
       })
     })
   }, [])
 
-  if (isLiked) {
+  if (isFollowed) {
     return (
       <Button
         onClick={handleClick}
@@ -73,7 +67,7 @@ export default function Like({ restaurantId, userId }) {
             sx={{ textDecoration: 'none'}}
             color="white" 
           >
-          Unlike: {numLikes}
+          Unfollow
         </Typography>
       </Button>
     )
@@ -92,7 +86,7 @@ export default function Like({ restaurantId, userId }) {
             sx={{ textDecoration: 'none'}}
             color="white" 
           >
-          Like: {numLikes}
+          Follow
         </Typography>
       </Button>
     )
