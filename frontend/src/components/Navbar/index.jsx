@@ -204,8 +204,7 @@ export default function Navbar() {
         </Container>
       </AppBar>
     );
-  }
-  else {
+  } else {
     return (
       <AppBar position="static" sx={{backgroundColor: '#f78c25'}}>
         <Container maxWidth="xl">
