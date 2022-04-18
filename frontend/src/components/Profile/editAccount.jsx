@@ -19,23 +19,52 @@ import { InputAdornment, IconButton } from '@mui/material';
 const API_URL = "http://localhost:8000/api/"
 
 
+const defaultValues = {
+    password: ""
+}
+
+
 export default function EditAccount(props) {
     const [success, setSuccess] = useState(false);
+    const [errors, setErrors] = useState(defaultValues);
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'password') {
+                tempValues.password = pair[1].length > 8 ? "" : "Password must be atleast 8 characters";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        fetch(API_URL + "accounts/profile/edit/", {
-            method: 'PATCH',
-            headers: authHeader(),
-            body: data
-        });
-        setSuccess(true);
+        if (validate(data)) {
+            fetch(API_URL + "accounts/profile/edit/", {
+                method: 'PATCH',
+                headers: authHeader(),
+                body: data
+            });
+            setSuccess(true);
+        }
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value)
+        validate(data);
     }
 
     return (
@@ -58,7 +87,9 @@ export default function EditAccount(props) {
                         placeholder="Enter new password"
                         defaultValue=""
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.password !== ''}
+                        helperText={errors.password}
                         autoComplete="current-pasword"
                         // source: https://stackoverflow.com/a/60391397
                         InputProps={{ // <-- This is where the toggle button is added.
