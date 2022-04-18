@@ -18,6 +18,7 @@ import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Conta
 import ChangeLogo from '../ChangeLogo';
 import AddPhoto from '../AddPhoto';
 import Like from '../Like';
+import Follow from '../Follow';
 
 const Restaurant = ({ id }) => {
 
@@ -41,6 +42,7 @@ const Restaurant = ({ id }) => {
     const [menuData, setMenuData] = useState(null);
     const [blogs, setBlogs] = useState(null);
     const [like, setLike] = useState("");
+    const [follow, setFollow] = useState("");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -137,7 +139,9 @@ const Restaurant = ({ id }) => {
         axios.get("http://localhost:8000/api/accounts/profile/view/", {
             headers: authHeader()
         })
-            .then(response => setLike(<Like restaurantId={id} userId={response.data.id} />))
+            .then(response => {
+                setLike(<Like restaurantId={id} userId={response.data.id} />);
+                setFollow(<Follow restaurantId={id} userId={response.data.id} />)})
             .catch(err => setStatus(err.response.status))
         axios.get(`http://localhost:8000/api/restaurants/${id}/photos/?page=` + page)
             .then(response => {
@@ -178,6 +182,7 @@ const Restaurant = ({ id }) => {
                         </ThemeProvider>
                     </Box>
                     <TabPanel value="1" >
+                    <Typography align="right" sx={{ mb: 3 }}> {follow} </Typography>
                         <Typography align="right" sx={{ mb: 3 }}> {like} </Typography>
                         <div style={{ backgroundImage: `url(${restaurantData.logo})` }} >
                             <Typography align="right"> {edit} </Typography>
