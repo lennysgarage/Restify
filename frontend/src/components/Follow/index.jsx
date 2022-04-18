@@ -45,7 +45,7 @@ export default function Follow({ restaurantId, userId }) {
     })
     .then(response => {
       response.data.results.forEach(follow => {
-        if (follow.restaurant === restaurantId && follow.follower === userId) {
+        if (follow.restaurant === parseInt(restaurantId) && follow.follower === parseInt(userId)) {
           setIsFollowed(true)
         }
       })
@@ -58,7 +58,6 @@ export default function Follow({ restaurantId, userId }) {
         onClick={handleClick}
         variant="contained"
         color="primary"
-        sx={{ mt: 3, mb: 2 }}
         style={{backgroundColor: '#f78c25'}}
       >
         <Typography 
@@ -77,7 +76,6 @@ export default function Follow({ restaurantId, userId }) {
         onClick={handleClick}
         variant="contained"
         color="primary"
-        sx={{ mt: 3, mb: 2 }}
         style={{backgroundColor: '#f78c25'}}
       >
         <Typography 
