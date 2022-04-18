@@ -230,7 +230,8 @@ const Restaurant = ({ id }) => {
                                                             color="primary"
                                                             sx={{ mt: 3, mb: 2 }}
                                                             style={{backgroundColor: '#f78c25'}}
-                                                            to={`/restaurant/${id}/editmenu`}
+                                                            component={Link}
+                                                            to={`/restaurant/menu/${r.id}`}
                                                             >
                                                         Edit Menu Item
                                                     </Button> : "") }
