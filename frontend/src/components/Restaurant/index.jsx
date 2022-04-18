@@ -29,6 +29,8 @@ const Restaurant = ({ id }) => {
     const [count2, setCount2] = useState(1);
     const [page3, setPage3] = useState(1);
     const [count3, setCount3] = useState(1);
+    const [page4, setPage4] = useState(1);
+    const [count4, setCount4] = useState(1);
     const PER_PAGE = 4;
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
@@ -42,6 +44,7 @@ const Restaurant = ({ id }) => {
     const [addMenu, setAddMenu] = useState("");
     const [menuData, setMenuData] = useState(null);
     const [blogs, setBlogs] = useState(null);
+    const [comments, setComments] = useState(null);
     const [like, setLike] = useState("");
     const [follow, setFollow] = useState("");
 
@@ -59,6 +62,10 @@ const Restaurant = ({ id }) => {
 
     const handlePageChange3 = (e, p) => {
         setPage3(p);
+    }
+
+    const handlePageChange4 = (e, p) => {
+        setPage4(p);
     }
 
     const customTheme = createTheme({
@@ -169,7 +176,12 @@ const Restaurant = ({ id }) => {
                 setBlogs(response.data.results);
                 setCount3(Math.ceil(response.data.count / PER_PAGE));
             })
-    }, [id, page, page2, page3])
+        axios.get(`http://localhost:8000/api/restaurants/${id}/comments/?page=` + page4)
+            .then(response => {
+                setComments(response.data.results);
+                setCount4(Math.ceil(response.data.count / PER_PAGE));
+            })
+    }, [id, page, page2, page3, page4])
 
     if (status === 404) {
         return (
@@ -333,18 +345,25 @@ const Restaurant = ({ id }) => {
                     <Typography variant="h5" color="black" display="inline-block" component="span">{addComment}</Typography>
                         <Container component="main" maxWidth="lg">
                             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                                {blogs !== null && blogs.map((r, index) => (
+                                {comments !== null && comments.map((r, index) => (
                                     <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2 }}>
-                                        
+                                        <Card sx={{ maxWidth: 345 }}>
+                                            <CardHeader
+                                                title={r.id}
+                                                subheader={`
+                                            ${r.body}
+                                            `}
+                                            />
+                                        </Card>
                                     </Grid>
                                 ))}
                             </Grid>
                             <Pagination
-                                count={count3}
-                                page={page3}
+                                count={count4}
+                                page={page4}
                                 variant="outlined"
                                 color="primary"
-                                onChange={handlePageChange3}
+                                onChange={handlePageChange4}
                             />
                         </Container>
                     </TabPanel>
