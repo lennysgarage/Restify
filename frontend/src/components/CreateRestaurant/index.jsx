@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import authHeader from "../../services/auth-header";
 import TextField from "@mui/material/TextField";
@@ -6,23 +6,76 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
+
+const defaultValues = {
+    name: "",
+    address: "",
+    postal_code: "",
+    phone_number: "",
+    country_code: "",
+    description: ""
+}
+
 const CreateRestaurant = () => {
+    const [errors, setErrors] = useState(defaultValues);
 
     let navigate = useNavigate();
+
+
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'name') {
+                tempValues.name = pair[1] ? "" : "Enter your restaurant's name"; 
+            }
+            if (pair[0] === 'address') {
+                tempValues.address = pair[1] ? "" : "Enter your restaurant's address";
+            }
+            if (pair[0] === 'postal_code') {
+                tempValues.postal_code = pair[1] ? "" : "Enter a valid postal code";
+            }
+            if (pair[0] === 'phone_number') {
+                tempValues.phone_number = /^\d{10}$/.test(pair[1])
+                ? "" : "Enter a phone number like 5555555555";
+            }
+            if (pair[0] === 'country_code') {
+                tempValues.country_code = /^[a-zA-Z]{2,3}$/.test(pair[1]) ? "" : "Enter a valid country code (CA)";
+            }
+            if (pair[0] === 'description') {
+                tempValues.description = pair[1] ? "" : "Enter your restaurant's description";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const input = document.querySelector('input[name="logo"]');
         const data = new FormData(e.currentTarget);
         data.append('logo', input.files[0]);
-        fetch('http://localhost:8000/api/restaurants/create/', {
-            method: 'POST',
-            body: data,
-            headers: authHeader()
-        })
+        if (validate(data)) {
+            fetch('http://localhost:8000/api/restaurants/create/', {
+                method: 'POST',
+                body: data,
+                headers: authHeader()
+            })
             .then((res) => {
                 navigate('/restaurant/')
             })
+        }
+    }
+
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value)
+        validate(data);
     }
 
     return (
@@ -37,7 +90,9 @@ const CreateRestaurant = () => {
                         label="Name"
                         placeholder="Enter your restaurant's name."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.name !== ''}
+                        helperText={errors.name}
                         autoComplete="name"
                         autoFocus
                     />
@@ -51,7 +106,9 @@ const CreateRestaurant = () => {
                         label="Address"
                         placeholder="Enter your restaurant's address."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.address !== ''}
+                        helperText={errors.address}
                         autoComplete="address"
                         autoFocus
                     />
@@ -65,7 +122,9 @@ const CreateRestaurant = () => {
                         label="Postal Code"
                         placeholder="Enter your restaurant's postal code."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.postal_code !== ''}
+                        helperText={errors.postal_code}
                         autoComplete="postal_code"
                         autoFocus
                     />
@@ -79,7 +138,9 @@ const CreateRestaurant = () => {
                         label="Phone Number"
                         placeholder="Enter your restaurant's phone number."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.phone_number !== ''}
+                        helperText={errors.phone_number}
                         autoComplete="phone_number"
                         autoFocus
                     />
@@ -93,7 +154,9 @@ const CreateRestaurant = () => {
                         label="Country Code"
                         placeholder="Enter your restaurant's country code."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.country_code !== ''}
+                        helperText={errors.country_code}
                         autoComplete="country_code"
                         autoFocus
                     />
@@ -108,7 +171,9 @@ const CreateRestaurant = () => {
                         multiline
                         fullWidth
                         placeholder="Enter a description for your restaurant."
-                        required
+                        onChange={handleChange}
+                        error={errors.description !== ''}
+                        helperText={errors.description}
                         autoComplete="description"
                     />
                 </Grid>
@@ -122,7 +187,9 @@ const CreateRestaurant = () => {
                     Upload Logo For Your Restaurant
                     <input
                         name="logo"
+                        accept="image/*"
                         type="file"
+                        required
                     />
                 </Button>
                 <Button
