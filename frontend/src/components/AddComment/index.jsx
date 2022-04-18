@@ -12,20 +12,37 @@ const defaultValues = {
 }
 
 const AddComment = ({ id }) => {
+  const [errors, setErrors] = useState(defaultValues);
   let navigate = useNavigate();
+
+  const validate = (formValues) => {
+    let tempValues = {...errors};
+    for (var pair of formValues.entries()){
+        if (pair[0] === 'body') {
+            tempValues.body = pair[1] ? "" : "Enter comment body"; 
+        }
+    }
+    setErrors({
+        ...tempValues,
+    });
+
+    // If all elements are "", then no errors were found
+    return Object.values(tempValues).every((x) => x === "");
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    console.log(data)
-    axios.post(`http://localhost:8000/api/restaurants/${id}/addcomment/`, {
-      body: data.get("body"),
-    }, {
-      headers: authHeader()
-    })
+    if (validate(data)) {
+      axios.post(`http://localhost:8000/api/restaurants/${id}/addcomment/`, {
+        body: data.get("body"),
+      }, {
+        headers: authHeader()
+      })
       .then((res) => {
         navigate(`/restaurant/${id}/`)
       })
+    }
   }
 
   const handleChange = (e) => {
@@ -49,6 +66,8 @@ const AddComment = ({ id }) => {
             fullWidth
             placeholder="Enter your comment."
             onChange={handleChange}
+            error={errors.body !== ''}
+            helperText={errors.body}
             autoComplete="body"
           />
         </Grid>

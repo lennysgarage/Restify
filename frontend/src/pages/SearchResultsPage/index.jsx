@@ -22,7 +22,6 @@ export default function SearchResultsPage() {
         const search = () => {
             searchRequest(query + "&page=" + page)
               .then(response => {
-                    console.log(response.data);
                     setData(response.data.results);
                     setCount(Math.ceil(response.data.count/PER_PAGE));
                 });
