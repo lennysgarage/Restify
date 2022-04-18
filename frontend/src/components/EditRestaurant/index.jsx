@@ -7,23 +7,67 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
-const EditRestaurant = ({ id }) => {
 
-    let navigate = useNavigate();
+const defaultValues = {
+    name: "",
+    address: "",
+    postal_code: "",
+    phone_number: "",
+    country_code: "",
+    description: ""
+}
+
+const EditRestaurant = ({ id }) => {
     const [owner, setOwner] = useState(false);
     const [data, setData] = useState(null);
+    const [errors, setErrors] = useState(defaultValues);
+
+    let navigate = useNavigate();
+
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'name') {
+                tempValues.name = pair[1] ? "" : "Enter your restaurant's name"; 
+            }
+            if (pair[0] === 'address') {
+                tempValues.address = pair[1] ? "" : "Enter your restaurant's address";
+            }
+            if (pair[0] === 'postal_code') {
+                tempValues.postal_code = pair[1] ? "" : "Enter a valid postal code";
+            }
+            if (pair[0] === 'phone_number') {
+                tempValues.phone_number = /^\d{10}$/.test(pair[1])
+                ? "" : "Enter a phone number like 5555555555";
+            }
+            if (pair[0] === 'country_code') {
+                tempValues.country_code = /^[a-zA-Z]{2,3}$/.test(pair[1]) ? "" : "Enter a valid country code (CA)";
+            }
+            if (pair[0] === 'description') {
+                tempValues.description = pair[1] ? "" : "Enter your restaurant's description";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        fetch("http://localhost:8000/api/restaurants/edit/", {
-            method: 'PATCH',
-            body: data,
-            headers: authHeader()
-        })
-        .then((res) => {
-            navigate("/restaurant")
-        })
+        if (validate(data)) {
+            fetch("http://localhost:8000/api/restaurants/edit/", {
+                method: 'PATCH',
+                body: data,
+                headers: authHeader()
+            })
+            .then((res) => {
+                navigate("/restaurant")
+            })
+        }
     }
     
     useEffect(() => {
@@ -40,6 +84,13 @@ const EditRestaurant = ({ id }) => {
         
     }, [id])
 
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value)
+        validate(data);
+    }
+
     if (owner) {
         return (
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1}}>
@@ -54,7 +105,9 @@ const EditRestaurant = ({ id }) => {
                         placeholder={data.name}
                         defaultValue={data.name}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.name !== ''}
+                        helperText={errors.name}
                         autoComplete="name"
                         autoFocus
                     />
@@ -69,7 +122,9 @@ const EditRestaurant = ({ id }) => {
                         placeholder={data.address}
                         defaultValue={data.address}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.address !== ''}
+                        helperText={errors.address}
                         autoComplete="address"
                         autoFocus
                     />
@@ -84,7 +139,9 @@ const EditRestaurant = ({ id }) => {
                         placeholder={data.postal_code}
                         defaultValue={data.postal_code}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.postal_code !== ''}
+                        helperText={errors.postal_code}
                         autoComplete="postal_code"
                         autoFocus
                     />
@@ -99,7 +156,9 @@ const EditRestaurant = ({ id }) => {
                         placeholder={data.phone_number}
                         defaultValue={data.phone_number}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.phone_number !== ''}
+                        helperText={errors.phone_number}
                         autoComplete="phone_number"
                         autoFocus
                     />
@@ -114,7 +173,9 @@ const EditRestaurant = ({ id }) => {
                         placeholder={data.country_code}
                         defaultValue={data.country_code}
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.country_code !== ''}
+                        helperText={errors.country_code}
                         autoComplete="country_code"
                         autoFocus
                     />
@@ -130,7 +191,9 @@ const EditRestaurant = ({ id }) => {
                         fullWidth
                         placeholder={data.description}
                         defaultValue={data.description}
-                        required
+                        onChange={handleChange}
+                        error={errors.description !== ''}
+                        helperText={errors.description}
                         autoComplete="description"
                     />
                 </Grid>

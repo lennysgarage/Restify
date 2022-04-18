@@ -26,7 +26,7 @@ const AddMenu = () => {
                 tempValues.name = pair[1] ? "" : "Enter item's name"; 
             }
             if (pair[0] === 'price') {
-                tempValues.price = pair[1] ? "" : "Enter item's price";
+                tempValues.price = parseFloat(pair[1]) ? "" : "Enter item's price";
             }
             if (pair[0] === 'description') {
                 tempValues.description = pair[1] ? "" : "Enter item's description";

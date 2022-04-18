@@ -32,7 +32,7 @@ const Router = () => {
                     <Route path="restaurant/:restaurant_id/addmenu" element={<AddMenuPage />} />
                     <Route path="restaurant/menu/:menu_id" element={<EditMenuPage />} />
                     <Route path="restaurant/:restaurant_id/addblog" element={<AddBlogPage />} />
-                    <Route path="blog/:blog_id" element={<BlogPage />} />
+                    <Route path="restaurant/:restaurant_id/blog/:blog_id" element={<BlogPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>

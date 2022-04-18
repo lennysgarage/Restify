@@ -5,10 +5,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import authHeader from "../../services/auth-header";
 
-const Blog = ({ id }) => {
+const Blog = ({ blog_id, restaurant_id }) => {
     const [status, setStatus] = useState(0);
     const [data, setData] = useState(null);
-    const [restaurantData, setRestaurantData] = useState(null);
     const [isTrue, setIsTrue] = useState(false);
 
     const handleClick = () => {
@@ -19,11 +18,11 @@ const Blog = ({ id }) => {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/blogs/blog/${id}/`)
+        axios.get(`http://localhost:8000/api/blogs/blog/${blog_id}/`)
         .then(response => {setData(response.data); 
                             setIsTrue(true)})
         .catch(err => setStatus(err.response.status))
-    }, [id])
+    }, [blog_id])
     
     if (status === 404) {
         return (
@@ -56,7 +55,7 @@ const Blog = ({ id }) => {
                         sx={{ mt: 3, mb: 2 }}
                         style={{backgroundColor: '#f75000'}}
                         component={Link}
-                        to={`/restaurant/${data.restaurant}`}
+                        to={`/restaurant/${restaurant_id}`}
                     > Return to Restaurant
                     </Button>
                     </Box>

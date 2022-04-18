@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Blog from "../../components/Blog"
 
 export default function BlogPage() {
-    const { blog_id } = useParams();
-    return <Blog id={ blog_id } />
+    const { blog_id, restaurant_id } = useParams();
+    return <Blog blog_id={ blog_id } restaurant_id={ restaurant_id } />
 
 }
