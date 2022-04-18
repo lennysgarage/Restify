@@ -12,22 +12,34 @@ import Divider from '@mui/material/Divider';
 import { createBox } from '@mui/system';
 import { Paper } from '@mui/material';
 import { Alert } from '@mui/material';
+import axios from 'axios';
 
-const API_URL = "http://localhost:8000/api/"
+
+const API_URL = "http://localhost:8000/api/";
 
 
 export default function EditPersonal(props) {
     const [success, setSuccess] = useState(false);
 
+    const fetchProfile = () => {
+        return axios.get(API_URL + 'accounts/profile/view', {
+            headers: authHeader()       
+        })
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
+        const mergedObject = {
+            ...data,
+            ...props.data
+        }
         fetch(API_URL + "accounts/profile/edit/", {
             method: 'PATCH',
             headers: authHeader(),
             body: data
         });
-        props.setData(data);
+        props.setData(mergedObject);
         setSuccess(true);
     }
 

@@ -67,15 +67,21 @@ const DisplayProfile = () => {
                     </Box>
                 </Grid>
                     {/* Account subheading */}
+                <Grid item xs={12} sx={{justifyContent: 'center'}}>
+
                     <Paper elevation={4}>
                         <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2 }}>Account </Typography>
                         <EditAccount data={data} />
                     </Paper>
+                </Grid>
+                <Grid item xs={12} sx={{justifyContent: 'center'}}>
+                
                     {/* Personal details subheading */}
                     <Paper elevation={4} sx={{mt: 2, mb: 2}}>
                         <Typography variant="h2" sx={{ fontWeight: 'bold', fontSize: '1.5rem', textAlign: 'start', pl: 2, mt:2}}>Personal details </Typography>
                         <EditPersonal data={data} setData={setData} />
                     </Paper>
+                </Grid>
                 </Grid> 
             )
         } else {

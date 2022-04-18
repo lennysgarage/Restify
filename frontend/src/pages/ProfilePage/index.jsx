@@ -17,8 +17,6 @@ export default function ProfilePage() {
                 alignItems: 'center',
             }}
             >
-                
-
                 <DisplayProfile/>
             </Box>
         </Container>
