@@ -20,6 +20,14 @@ class ViewBlogs(generics.ListAPIView):
         object_list = Blog.objects.filter(restaurant__id = query.id)
         return object_list
 
+class GetLikes(generics.ListAPIView):
+    serializer_class = LikeBlogSerializer
+
+    def get_queryset(self):
+        object_list = LikeBlog.objects.filter(blog=self.kwargs['blog_id'])
+        return object_list
+
+
 class GetBlog(generics.RetrieveAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer

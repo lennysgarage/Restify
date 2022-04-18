@@ -43,20 +43,19 @@ export default function LikeBlog({ blogId, userId }) {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/blogs/likes/", {
+    
+    
+    axios.get(`http://localhost:8000/api/blogs/blog/likes/${blogId}`, {
         headers: authHeader()
     })
     .then(response => {
-      response.data.results.forEach(like => {
-        if (like.blog === parseInt(blogId)) {
-          setNumLikes(numLikes + 1)
-          if (like.likedby === parseInt(userId)) {
-            setIsLiked(true)
-          }
-        }
-      })
+      setNumLikes(response.data.count)
     })
-  }, [])
+  }, []);
+
+
+
+
 
   if (isLiked) {
     return (
