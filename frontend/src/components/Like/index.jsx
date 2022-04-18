@@ -64,7 +64,6 @@ export default function Like({ restaurantId, userId }) {
         onClick={handleClick}
         variant="contained"
         color="primary"
-        sx={{ mt: 3, mb: 2 }}
         style={{backgroundColor: '#f78c25'}}
       >
         <Typography 
@@ -83,7 +82,6 @@ export default function Like({ restaurantId, userId }) {
         onClick={handleClick}
         variant="contained"
         color="primary"
-        sx={{ mt: 3, mb: 2 }}
         style={{backgroundColor: '#f78c25'}}
       >
         <Typography 

@@ -17,6 +17,7 @@ import { ThemeProvider } from '@emotion/react';
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Container, Pagination } from '@mui/material';
 import ChangeLogo from '../ChangeLogo';
 import AddPhoto from '../AddPhoto';
+import Like from '../Like';
 
 const Restaurant = ({ id }) => {
 
@@ -39,6 +40,7 @@ const Restaurant = ({ id }) => {
     const [addMenu, setAddMenu] = useState("");
     const [menuData, setMenuData] = useState(null);
     const [blogs, setBlogs] = useState(null);
+    const [like, setLike] = useState("");
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -131,6 +133,11 @@ const Restaurant = ({ id }) => {
         axios.get(`http://localhost:8000/api/restaurants/${id}`)
         .then(response => setRestaurantData(response.data))
         .catch(err => setStatus(err.response.status))
+        axios.get("http://localhost:8000/api/accounts/profile/view/", {
+            headers: authHeader()
+        })
+        .then(response => setLike(<Like restaurantId={id} userId={response.data.id} />))
+        .catch(err => setStatus(err.response.status))
         axios.get(`http://localhost:8000/api/restaurants/${id}/photos/?page=` + page)
         .then(response => {
             setPhotoData(response.data.results);
@@ -169,7 +176,8 @@ const Restaurant = ({ id }) => {
                 </ThemeProvider>
                 </Box>
                 <TabPanel value="1" >
-                    <div style={{ backgroundImage: `url(${restaurantData.logo})`}}>
+                <Typography align="right" sx={{ mb: 3 }}> { like } </Typography> 
+                    <div style={{ backgroundImage: `url(${restaurantData.logo})`}} >
                         <Typography align="right"> { edit } </Typography> 
                         <Typography align="right" component="span"> { logo } </Typography>
                         <Typography variant="h1" bgcolor="rgba(0,0,0,0.7)" color="white" display="inline-block" >{ restaurantData.name }</Typography>
