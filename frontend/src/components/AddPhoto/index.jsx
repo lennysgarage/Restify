@@ -31,7 +31,7 @@ const AddPhoto = ({ id }) => {
                 component="label"
                 color="primary"
                 sx={{ mt: 3, mb: 3 }}
-                style={{backgroundColor: '#f75000'}}
+                style={{backgroundColor: '#f78c25'}}
             > 
             Add a Photo      
             <input

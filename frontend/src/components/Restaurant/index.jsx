@@ -100,7 +100,7 @@ const Restaurant = ({ id }) => {
                         variant="contained"
                         color="primary"
                         sx={{ mt: 3, mb: 3, mr: 3 }}
-                        style={{ backgroundColor: '#f78c25' }}
+                        style={{ backgroundColor: '#f75000' }}
                         component={Link}
                         to={`/restaurant/${id}/edit`}
                     >
@@ -217,7 +217,7 @@ const Restaurant = ({ id }) => {
                                             variant="contained"
                                             color="primary"
                                             sx={{ mt: 3, mb: 3 }}
-                                            style={{ backgroundColor: '#f78c25' }}
+                                            style={{ backgroundColor: '#f75000' }}
                                             onClick={() => { handleClick(r.id) }}
                                         >
                                             Remove Photo
@@ -263,7 +263,7 @@ const Restaurant = ({ id }) => {
                                             variant="contained"
                                             color="primary"
                                             sx={{ mt: 3, mb: 3 }}
-                                            style={{ backgroundColor: '#f78c25' }}
+                                            style={{ backgroundColor: '#f75000' }}
                                             component={Link}
                                             to={`/restaurant/menu/${r.id}`}
                                         >
@@ -301,7 +301,7 @@ const Restaurant = ({ id }) => {
                                             variant="contained"
                                             color="primary"
                                             sx={{ mt: 3, mb: 2 }}
-                                            style={{ backgroundColor: '#f78c25' }}
+                                            style={{ backgroundColor: '#f75000' }}
                                             onClick={() => { handleClick2(r.id) }}
                                         >
                                             Remove Blog

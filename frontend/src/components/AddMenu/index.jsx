@@ -119,15 +119,19 @@ const AddMenu = () => {
                     variant="contained"
                     component="label"
                     color="primary"
-                    style={{backgroundColor: '#f78c25'}}
-                    sx={{ mt: 2 }}
+                    fullWidth
+                    style={{backgroundColor: '#f75000'}}
+                    sx={{ mt: 3 }}
                 >
-                    Upload a Photo of the menu Item
+                    <div>
+                        upload a photo of the menu item
+                    </div>
                     <input
                         name="photo"
                         accept="image/*"
                         type="file"
                         required
+                        // hidden
                     />
                 </Button>
                 <Button
@@ -135,7 +139,7 @@ const AddMenu = () => {
                     color="primary"
                     type="submit"
                     fullWidth
-                    sx={{ mt: 4 }}
+                    sx={{ mt: 3 }}
                     style={{backgroundColor: '#f75000'}}
                 >
                         Add Menu Item
