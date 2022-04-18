@@ -27,6 +27,7 @@ const Feed = () => {
             setData(response.data.results);
             setCount(Math.ceil(response.data.count/PER_PAGE));
          })
+         
     }, [page])
 
     return (
@@ -35,7 +36,7 @@ const Feed = () => {
                 <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                     {data !== null && data.map((r, index) => (
                         <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2}}>
-                        <CardActionArea component={Link} to={ `/blog/${r.id}` }>
+                        <CardActionArea component={Link} to={ `/restaurant/${r.restaurant}/blog/${r.id}` }>
                             <Card sx={{ maxWidth: 345 }}>
                                 <CardHeader
                                     title={r.header}

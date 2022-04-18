@@ -1,4 +1,4 @@
-from restaurants.models import User
+from restaurants.models import User, Restaurant
 from django.db import models
 from django.db.models import SET_NULL
 from django.utils.timezone import now
@@ -8,8 +8,7 @@ class Blog(models.Model):
     header = models.CharField(max_length=256)
     subtext = models.CharField(max_length=256)
     body = models.TextField()
-    restaurant = models.ForeignKey(to=User, on_delete=SET_NULL, null=True, related_name='blog_restaurant')
-
+    restaurant = models.ForeignKey(to=Restaurant, on_delete=SET_NULL, null=True, related_name='blog_restaurant')
 
 class LikeBlog(models.Model):
     likedby = models.ForeignKey(to=User, on_delete=SET_NULL, null=True, related_name='likedby_blog_owner')

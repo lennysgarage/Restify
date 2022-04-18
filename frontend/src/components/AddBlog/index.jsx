@@ -45,7 +45,7 @@ const AddBlog = ({ id }) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         if (validate(data)) {
-            axios.post('http://localhost:8000/api/blogs/addblog/', {
+            axios.post(`http://localhost:8000/api/blogs/${id}/addblog/`, {
                 header: data.get("header"),
                 subtext: data.get("subtext"),
                 body: data.get("body"),

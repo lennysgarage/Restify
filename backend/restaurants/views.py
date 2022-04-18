@@ -49,6 +49,13 @@ class GetRestaurant(generics.RetrieveAPIView):
             return None
         return get_object_or_404(self.queryset, owner__email=self.request.user.email)
 
+class ViewRestaurant(generics.RetrieveAPIView):
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.queryset, id=self.kwargs['restaurant_id'])
+
 class SearchRestaurants(generics.ListAPIView):
     serializer_class = RestaurantSerializer
 
@@ -61,15 +68,6 @@ class SearchRestaurants(generics.ListAPIView):
         .annotate(num_likes=Count('liked_restaurant')) \
         .order_by('-num_likes')
         return object_list
-
-class ViewRestaurant(generics.RetrieveAPIView):
-    queryset = Restaurant.objects.all()
-    serializer_class = RestaurantSerializer
-
-    def get_object(self):
-        queryset = self.get_queryset()
-        return get_object_or_404(queryset, id=self.kwargs['restaurant_id'])
-
 
 class ViewMenuItems(generics.ListAPIView):
     serializer_class = MenuItemSerializer

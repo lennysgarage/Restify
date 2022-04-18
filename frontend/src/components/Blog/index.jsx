@@ -4,11 +4,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import authHeader from "../../services/auth-header";
+import LikeBlog from "../LikeBlog";
 
 const Blog = ({ blog_id, restaurant_id }) => {
     const [status, setStatus] = useState(0);
     const [data, setData] = useState(null);
     const [isTrue, setIsTrue] = useState(false);
+    const [like, setLike] = useState("");
 
     const handleClick = () => {
         axios.get(`http://localhost:8000/api/restaurants/${data.id}/`, {
@@ -22,6 +24,10 @@ const Blog = ({ blog_id, restaurant_id }) => {
         .then(response => {setData(response.data); 
                             setIsTrue(true)})
         .catch(err => setStatus(err.response.status))
+        axios.get("http://localhost:8000/api/accounts/profile/view/", {
+            headers: authHeader()
+        })
+            .then(response => setLike(<LikeBlog blogId={blog_id} userId={response.data.id} />))
     }, [blog_id])
     
     if (status === 404) {
@@ -58,6 +64,7 @@ const Blog = ({ blog_id, restaurant_id }) => {
                         to={`/restaurant/${restaurant_id}`}
                     > Return to Restaurant
                     </Button>
+                    { like }
                     </Box>
                     </Grid>
                 </Grid>

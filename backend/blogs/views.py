@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from .serializers import AddBlogSerializer, BlogSerializer, LikeBlogSerializer, LikesBlogSerializer, RemoveBlogSerializer
 from .models import Blog, LikeBlog
-from restaurants.models import Restaurant, Follow
+from restaurants.models import Follow, Restaurant
 from django.shortcuts import get_object_or_404
 
 class AddBlog(generics.CreateAPIView):
@@ -17,7 +17,7 @@ class ViewBlogs(generics.ListAPIView):
 
     def get_queryset(self):
         query = get_object_or_404(Restaurant, id=self.kwargs['restaurant_id'])
-        object_list = Blog.objects.filter(restaurant__email = query.owner)
+        object_list = Blog.objects.filter(restaurant__id = query.id)
         return object_list
 
 class GetBlog(generics.RetrieveAPIView):
@@ -33,7 +33,7 @@ class RemoveBlog(generics.DestroyAPIView):
     serializer_class = RemoveBlogSerializer
     
     def get_object(self):
-        return get_object_or_404(self.queryset, id=self.kwargs['blog_id'], restaurant__email=self.request.user.email)
+        return get_object_or_404(self.queryset, id=self.kwargs['blog_id'])
 
 class ViewFeed(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -41,8 +41,7 @@ class ViewFeed(generics.ListAPIView):
 
     def get_queryset(self):
         followed_restaurants = set(follow.restaurant for follow in list(Follow.objects.filter(follower = self.request.user)))
-        owners = set(restaurant.owner for restaurant in followed_restaurants)
-        object_list = Blog.objects.filter(restaurant__email__in = owners)
+        object_list = Blog.objects.filter(restaurant__in = followed_restaurants)
         return object_list
 
 

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Blog, LikeBlog
-from restaurants.models import Like
+from restaurants.models import Restaurant
 from django.shortcuts import get_object_or_404
 
 
@@ -21,7 +21,16 @@ class AddBlogSerializer(serializers.ModelSerializer):
         fields = ('id', 'date', 'header', 'subtext', 'body', 'restaurant')
 
     def create(self, data):
-        return Blog.objects.create(**data)
+        blog = Blog.objects.create(
+            header=data['header'],
+            subtext=data['subtext'],
+            body=data['body'],
+            restaurant = get_object_or_404(Restaurant, id=self.context.get('view').kwargs.get('restaurant_id'))
+        )
+
+        blog.save()
+
+        return blog
 
 class RemoveBlogSerializer(serializers.ModelSerializer):
     class Meta:

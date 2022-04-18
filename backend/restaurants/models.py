@@ -1,5 +1,4 @@
 from accounts.models import User
-from blogs.models import Blog
 from django.db import models
 from django.db.models import SET_NULL
 from django.utils.timezone import now
