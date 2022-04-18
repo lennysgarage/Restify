@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import authHeader from "../../services/auth-header";
 import TextField from "@mui/material/TextField";
@@ -6,23 +6,62 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 
+
+const defaultValues = {
+    name: "",
+    price: "",
+    description: ""
+}
+
 const AddMenu = () => {
+    const [errors, setErrors] = useState(defaultValues);
 
     let navigate = useNavigate();
+
+
+    const validate = (formValues) => {
+        let tempValues = {...errors};
+        for (var pair of formValues.entries()){
+            if (pair[0] === 'name') {
+                tempValues.name = pair[1] ? "" : "Enter item's name"; 
+            }
+            if (pair[0] === 'price') {
+                tempValues.price = pair[1] ? "" : "Enter item's price";
+            }
+            if (pair[0] === 'description') {
+                tempValues.description = pair[1] ? "" : "Enter item's description";
+            }
+        }
+        setErrors({
+            ...tempValues,
+        });
+
+        // If all elements are "", then no errors were found
+        return Object.values(tempValues).every((x) => x === "");
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const input = document.querySelector('input[name="photo"]');
         const data = new FormData(e.currentTarget);
         data.append('photo', input.files[0]);
-        fetch('http://localhost:8000/api/restaurants/addmenu/', {
-            method: 'POST',
-            body: data,
-            headers: authHeader()
-        })
-            .then((res) => {
-                navigate('/restaurant/')
+        if (validate(data)) {
+            fetch('http://localhost:8000/api/restaurants/addmenu/', {
+                method: 'POST',
+                body: data,
+                headers: authHeader()
             })
+                .then((res) => {
+                    navigate('/restaurant/')
+                })
+        }
+    }
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        var data = new FormData();
+        data.set(name, value)
+        validate(data);
     }
 
     return (
@@ -37,7 +76,9 @@ const AddMenu = () => {
                         label="Name"
                         placeholder="Enter the name of the menu item."
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.name !== ''}
+                        helperText={errors.name}
                         autoComplete="name"
                         autoFocus
                     />
@@ -47,9 +88,12 @@ const AddMenu = () => {
                         margin="normal"
                         id="price-input"
                         name="price"
-                        label="Price"
+                        label="Price ($)"
+                        placeholder="0.00"
                         fullWidth
-                        required
+                        onChange={handleChange}
+                        error={errors.price !== ''}
+                        helperText={errors.price}
                         autoComplete="price"
                         autoFocus
                         step={0.01}
@@ -64,8 +108,10 @@ const AddMenu = () => {
                         label="Description"
                         multiline
                         fullWidth
+                        onChange={handleChange}
+                        error={errors.description !== ''}
+                        helperText={errors.description}
                         placeholder="Enter the description of your menu item."
-                        required
                         autoComplete="description"
                     />
                 </Grid>
@@ -79,6 +125,7 @@ const AddMenu = () => {
                     Upload a Photo of the menu Item
                     <input
                         name="photo"
+                        accept="image/*"
                         type="file"
                         required
                     />
