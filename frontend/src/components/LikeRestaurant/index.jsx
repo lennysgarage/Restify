@@ -42,19 +42,29 @@ export default function LikeRestaurant({ restaurantId, userId }) {
     })
   }
 
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/restaurants/likes/", {
+  const checkIfUserLiked = () => {
+    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/unlike/`, {
+        method: 'DELETE',
         headers: authHeader()
     })
     .then(response => {
-      response.data.results.forEach(like => {
-        if (like.restaurant === parseInt(restaurantId)) {
-          setNumLikes(numLikes + 1)
-          if (like.likedby === parseInt(userId)) {
-            setIsLiked(true)
-          }
-        }
-      })
+      if (response.status === 204) {
+        setIsLiked(true)
+        fetch(`http://localhost:8000/api/restaurants/${restaurantId}/fakelike/`, {
+          method: 'POST',
+          headers: authHeader()
+        })
+      }
+    })
+  }
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/restaurants/${restaurantId}/likes`, {
+        headers: authHeader()
+    })
+    .then(response => {
+      setNumLikes(response.data.count)
+      checkIfUserLiked()
     })
   }, [])
 

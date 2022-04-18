@@ -59,7 +59,7 @@ export default function LikeBlog({ blogId, userId }) {
   }
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/blogs/blog/likes/${blogId}`, {
+    axios.get(`http://localhost:8000/api/blogs/blog/${blogId}/likes`, {
         headers: authHeader()
     })
     .then(response => {

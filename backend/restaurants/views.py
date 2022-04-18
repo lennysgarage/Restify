@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import viewsets
-from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, FollowsSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
+from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, FakeLikeRestaurantSerializer, FollowsSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
  AddCommentSerializer, CommentSerializer, AddMenuItemSerializer, FollowSerializer
 from .models import Like, MenuItem, Restaurant, RestaurantImage, User, Comment, Follow
 from django.db.models import Count
@@ -147,6 +147,13 @@ class Likes(generics.ListAPIView):
     queryset = Like.objects.all()
     serializer_class = LikesSerializer
 
+class GetLikes(generics.ListAPIView):
+    serializer_class = LikeRestaurantSerializer
+
+    def get_queryset(self):
+        object_list = Like.objects.filter(restaurant=self.kwargs['restaurant_id'])
+        return object_list
+
 class LikeRestaurantView(generics.CreateAPIView):
     queryset = Like.objects.all()
     permissions_classes = [permissions.IsAuthenticated]
@@ -161,6 +168,19 @@ class LikeRestaurantView(generics.CreateAPIView):
                 'error': 'User can only like the same restaurant once.'
             })
 
+class FakeLikeRestaurantView(generics.CreateAPIView):
+    queryset = Like.objects.all()
+    permissions_classes = [permissions.IsAuthenticated]
+    serializer_class = FakeLikeRestaurantSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError:
+            return JsonResponse({
+                'status_code': 403,
+                'error': 'User can only like the same restaurant once.'
+            })
 
 class UnLikeRestaurantView(generics.DestroyAPIView):
     queryset = Like.objects.all()

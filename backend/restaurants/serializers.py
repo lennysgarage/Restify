@@ -148,6 +148,24 @@ class LikeRestaurantSerializer(serializers.ModelSerializer):
 
         return likedby
 
+class FakeLikeRestaurantSerializer(serializers.ModelSerializer):
+    likedby = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    restaurant = serializers.HiddenField(default=None)
+
+    class Meta:
+        model = Like
+        fields = ('likedby', 'restaurant')
+    
+    def create(self, data):
+        likedby = Like.objects.create(
+            likedby=data['likedby'],
+            restaurant = get_object_or_404(Restaurant, id=self.context.get('view').kwargs.get('restaurant_id'))
+        )
+
+        likedby.save()
+
+        return likedby
+
 class AddPhotoSerializer(serializers.ModelSerializer):
     img = serializers.ImageField(required=True)
     restaurant = serializers.HiddenField(default=None)
