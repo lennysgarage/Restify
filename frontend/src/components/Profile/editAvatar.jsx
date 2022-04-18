@@ -1,25 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
-import TextField from "@mui/material/TextField";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import authHeader from "../../services/auth-header";
-import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
-import Divider from '@mui/material/Divider';
-import { createBox } from '@mui/system';
-import { Paper } from '@mui/material';
-import { Alert } from '@mui/material';
-import { InputAdornment, IconButton } from '@mui/material';
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardMedia from '@mui/material/CardMedia';
-import CardContent from '@mui/material/CardContent';
-import CardActionArea from '@mui/material/CardActionArea';
+import { IconButton } from '@mui/material';
 import axios from 'axios';
 
 const API_URL = "http://localhost:8000/api/";
