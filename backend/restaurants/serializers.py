@@ -110,6 +110,24 @@ class FollowSerializer(serializers.ModelSerializer):
 
         return follow
 
+class FakeFollowSerializer(serializers.ModelSerializer):
+    follower = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    restaurant = serializers.HiddenField(default=None)
+
+    class Meta:
+        model = Follow
+        fields = ('follower', 'restaurant')
+    
+    def create(self, data):
+        follow = Follow.objects.create(
+            follower=data['follower'],
+            restaurant = get_object_or_404(Restaurant, id=self.context.get('view').kwargs.get('restaurant_id'))
+        )
+
+        follow.save()
+
+        return follow
+
 class FollowsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Follow

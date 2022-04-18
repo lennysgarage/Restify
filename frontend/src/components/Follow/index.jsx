@@ -42,19 +42,29 @@ export default function Follow({ restaurantId, userId }) {
     })
   }
 
+  const checkIfUserFollowed = () => {
+    fetch(`http://localhost:8000/api/restaurants/${restaurantId}/unfollow/`, {
+        method: 'DELETE',
+        headers: authHeader()
+    })
+    .then(response => {
+      if (response.status === 204) {
+        setIsFollowed(true)
+        fetch(`http://localhost:8000/api/restaurants/${restaurantId}/fakefollow/`, {
+          method: 'POST',
+          headers: authHeader()
+        })
+      }
+    })
+  }
+
   useEffect(() => {
     axios.get(`http://localhost:8000/api/restaurants/${restaurantId}/followers/`, {
         headers: authHeader()
     })
     .then(response => {
-      response.data.results.forEach(follow => {
-        if (follow.restaurant === parseInt(restaurantId)) {
-          setNumFollows(numFollows + 1)
-          if (follow.follower === parseInt(userId)) {
-            setIsFollowed(true)
-          }
-        }
-      })
+      setNumFollows(response.data.count)
+      checkIfUserFollowed()
     })
   }, [])
 

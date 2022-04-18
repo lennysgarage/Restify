@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import viewsets
-from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, FakeLikeRestaurantSerializer, FollowsSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
+from .serializers import AddPhotoSerializer, CreateRestaurantSerializer, EditMenuItemSerializer, FakeFollowSerializer, FakeLikeRestaurantSerializer, FollowsSerializer, LikeRestaurantSerializer, LikesSerializer, MenuItemSerializer, RemovePhotoSerializer, RestaurantSerializer, \
  AddCommentSerializer, CommentSerializer, AddMenuItemSerializer, FollowSerializer
 from .models import Like, MenuItem, Restaurant, RestaurantImage, User, Comment, Follow
 from django.db.models import Count
@@ -116,6 +116,20 @@ class FollowView(generics.CreateAPIView):
     queryset = Follow.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = FollowSerializer
+
+    def create(self, request, *args, **kwargs):
+        try:
+            return super().create(request, *args, **kwargs)
+        except IntegrityError:
+            return JsonResponse({
+                'status_code': 403,
+                'error': 'User can only follow the same restaurant once.'
+            })
+
+class FakeFollowView(generics.CreateAPIView):
+    queryset = Follow.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FakeFollowSerializer
 
     def create(self, request, *args, **kwargs):
         try:
