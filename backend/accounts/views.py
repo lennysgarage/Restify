@@ -45,6 +45,15 @@ class GetUser(generics.RetrieveAPIView):
         queryset = self.get_queryset()
         return get_object_or_404(queryset, email=self.request.user.email)
 
+class GetUserFromId(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = ViewUserSerializer
+
+    def get_object(self):
+        queryset = self.get_queryset()
+        return get_object_or_404(queryset, id=self.kwargs['user_id'])
+
+
 # profile/edit/
 class EditUser(generics.UpdateAPIView):
     queryset = User.objects.all()
