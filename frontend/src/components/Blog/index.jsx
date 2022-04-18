@@ -42,8 +42,9 @@ const Blog = ({ blog_id, restaurant_id }) => {
             <Container maxWidth="xl" >
                 
                 <Grid container spacing={2}>
-                    <Grid item xs={11} direction="column">
+                    <Grid item xs={11} >
                     <Box sx={{ flexGrow: 1, display: 'table', marginTop: 8 }}>
+                    <Typography variant="h5" display="table" >{ data.date.split("T")[0] } </Typography>
                         <Typography variant="h1" display="table" >{ data.header }</Typography>
                         <br />
                         <Typography variant="h3" display="table" style={{color: "grey"}}>{ data.subtext }</Typography>
@@ -53,7 +54,7 @@ const Blog = ({ blog_id, restaurant_id }) => {
                         <Typography variant="h5" display="table" >{ data.body }</Typography>
                         </Box>
                     </Grid>
-                    <Grid item xs={1} direction="column">
+                    <Grid item xs={1}>
                     <Box sx={{ flexGrow: 0, display: 'table', marginTop: 8 }}>
                     <Button
                         variant="contained"
