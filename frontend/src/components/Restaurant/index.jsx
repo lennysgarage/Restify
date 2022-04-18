@@ -95,7 +95,7 @@ const Restaurant = ({ id }) => {
                 setEdit(<Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 3, mr: 3 }}
                     style={{backgroundColor: '#f78c25'}}
                     component={Link} 
                     to={`/restaurant/${id}/edit`}
@@ -105,7 +105,7 @@ const Restaurant = ({ id }) => {
                 setAddBlog(<Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 3 }}
                     style={{backgroundColor: '#f78c25'}}
                     component={Link} 
                     to={`/restaurant/${id}/addblog`}
@@ -118,7 +118,7 @@ const Restaurant = ({ id }) => {
                     <Button
                     variant="contained"
                     color="primary"
-                    sx={{ mt: 3, mb: 2 }}
+                    sx={{ mt: 3, mb: 3 }}
                     style={{backgroundColor: '#f78c25'}}
                     component={Link} 
                     to={`/restaurant/${id}/addmenu`}
@@ -201,7 +201,7 @@ const Restaurant = ({ id }) => {
                                     { (status === 200 ? <Button
                                                             variant="contained"
                                                             color="primary"
-                                                            sx={{ mt: 3, mb: 2 }}
+                                                            sx={{ mt: 3, mb: 3 }}
                                                             style={{backgroundColor: '#f78c25'}}
                                                             onClick={() => { handleClick(r.id) } }
                                                             >
@@ -247,7 +247,7 @@ const Restaurant = ({ id }) => {
                                     { (status === 200 ? <Button
                                                             variant="contained"
                                                             color="primary"
-                                                            sx={{ mt: 3, mb: 2 }}
+                                                            sx={{ mt: 3, mb: 3 }}
                                                             style={{backgroundColor: '#f78c25'}}
                                                             component={Link}
                                                             to={`/restaurant/menu/${r.id}`}
