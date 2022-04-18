@@ -48,7 +48,7 @@ const Login = () => {
                             email: "Email or password is incorrect",
                             password: "Email or password is incorrect"});
                     } else {
-                        navigate('/');
+                        window.location.href = "http://localhost:3000/";
                     }
                 })
         }
