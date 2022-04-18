@@ -42,20 +42,31 @@ export default function LikeBlog({ blogId, userId }) {
     })
   }
 
+  const checkIfUserLiked = () => {
+    fetch(`http://localhost:8000/api/blogs/${blogId}/unlike/`, {
+        method: 'DELETE',
+        headers: authHeader()
+    })
+    .then(response => {
+      if (response.status === 204) {
+        setIsLiked(true)
+        fetch(`http://localhost:8000/api/blogs/${blogId}/like/`, {
+          method: 'POST',
+          headers: authHeader()
+        })
+      }
+    })
+  }
+
   useEffect(() => {
-    
-    
     axios.get(`http://localhost:8000/api/blogs/blog/likes/${blogId}`, {
         headers: authHeader()
     })
     .then(response => {
       setNumLikes(response.data.count)
+      checkIfUserLiked()
     })
   }, []);
-
-
-
-
 
   if (isLiked) {
     return (
