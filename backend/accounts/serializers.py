@@ -21,7 +21,7 @@ class EditUserSerializer(serializers.ModelSerializer):
 class ViewUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'first_name', 'last_name', 'password', 'country_code', 'phone_number', 'address', 'profile_photo')
+        fields = ('id', 'email', 'first_name', 'last_name', 'password', 'country_code', 'phone_number', 'address', 'profile_photo')
 
 # login/
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
