@@ -74,6 +74,15 @@ class GetNotifications(generics.ListAPIView):
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
 
+# notification/1/
+class DeleteNotification(generics.DestroyAPIView):
+    queryset = Notification.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = NotificationSerializer
+
+    def get_object(self):
+        return get_object_or_404(self.queryset, id=self.kwargs['id'])
+
 # notification/add
 # class AddNotification(generics.CreateAPIView):
 #     queryset = Notification.objects.all()

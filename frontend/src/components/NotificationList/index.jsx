@@ -8,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Link } from "react-router-dom";
 
 export default function NotificationList() {
   const [anchorElNotif, setAnchorElNotif] = React.useState(null);
@@ -23,13 +22,23 @@ export default function NotificationList() {
     setAnchorElNotif(null);
   };
 
+  const handleClickNotif = (id) => {
+    fetch(`http://localhost:8000/api/accounts/notification/${id}/`, {
+        method: 'DELETE',
+        headers: authHeader()
+    })
+    .then(response => {
+      setLoading(true)
+    })
+  }
+
   useEffect(() => {
     axios.get("http://localhost:8000/api/accounts/notifications", {
         headers: authHeader()
-        })
-    .then(response => {console.log(response.data.results); setLoading(false); setNotifications(response.data.results)})
+    })
+    .then(response => {setLoading(false); setNotifications(response.data.results)})
     .catch(err => setLoading(false)); 
-  }, [])
+  }, [loading])
 
   if (loading) {
     return (
@@ -107,13 +116,19 @@ export default function NotificationList() {
         onClose={handleCloseNotifMenu}
       >
 
-        {notifications.map(notif => (
-          <MenuItem key={ notif.id } onClick={handleCloseNotifMenu}>
+        {(notifications.length === 0 ? 
+          <MenuItem>
             <Typography variant="p" color="black" sx={{ textDecoration: 'none' }}>
-              { notif.title }
+              You have no notifications
             </Typography>
-          </MenuItem>
-        ))}
+          </MenuItem> : 
+          notifications.map(notif => (
+            <MenuItem key={ notif.id } onClick={() =>  handleClickNotif(notif.id) }>
+              <Typography variant="p" color="black" sx={{ textDecoration: 'none' }}>
+                { notif.title }
+              </Typography>
+            </MenuItem>
+        )))}
 
       </Menu>
     </>

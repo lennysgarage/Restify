@@ -8,4 +8,5 @@ urlpatterns = [
     path('profile/view/', views.GetUser.as_view()),
     path('profile/edit/', views.EditUser.as_view()),
     path('notifications/', views.GetNotifications.as_view()),
+    path('notification/<int:id>/', views.DeleteNotification.as_view()),
 ]
