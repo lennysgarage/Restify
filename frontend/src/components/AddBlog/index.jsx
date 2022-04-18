@@ -56,7 +56,7 @@ const AddBlog = ({ id }) => {
                 console.log(res)
                 console.log(res.data)
                 console.log(res.data.id)
-                navigate(`/blog/${res.data.id}`)
+                navigate(`/restaurant/${id}/blog/${res.data.id}`)
             })
         }
     }

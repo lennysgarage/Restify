@@ -37,6 +37,7 @@ const AddPhoto = ({ id }) => {
             <input
                     hidden
                     name="img"
+                    accept="image/*"
                     type="file"
                     onChange={ handleSubmit }
                 />
