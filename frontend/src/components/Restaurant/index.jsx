@@ -17,7 +17,7 @@ import { ThemeProvider } from '@emotion/react';
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Container, Pagination } from '@mui/material';
 import ChangeLogo from '../ChangeLogo';
 import AddPhoto from '../AddPhoto';
-import Like from '../Like';
+import LikeRestaurant from '../LikeRestaurant';
 import Follow from '../Follow';
 
 const Restaurant = ({ id }) => {
@@ -140,7 +140,7 @@ const Restaurant = ({ id }) => {
             headers: authHeader()
         })
             .then(response => {
-                setLike(<Like restaurantId={id} userId={response.data.id} />);
+                setLike(<LikeRestaurant restaurantId={id} userId={response.data.id} />);
                 setFollow(<Follow restaurantId={id} userId={response.data.id} />)})
             .catch(err => setStatus(err.response.status))
         axios.get(`http://localhost:8000/api/restaurants/${id}/photos/?page=` + page)

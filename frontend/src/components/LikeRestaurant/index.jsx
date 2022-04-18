@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 
-export default function Like({ restaurantId, userId }) {
+export default function LikeRestaurant({ restaurantId, userId }) {
 
   const [isLiked, setIsLiked] = React.useState(false);
   const [numLikes, setNumLikes] = React.useState(0);
