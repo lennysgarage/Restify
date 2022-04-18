@@ -31,7 +31,7 @@ const Restaurant = ({ id }) => {
     const [count3, setCount3] = useState(1);
     const [page4, setPage4] = useState(1);
     const [count4, setCount4] = useState(1);
-    const PER_PAGE = 2;
+    const PER_PAGE = 6;
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
     const [addBlog, setAddBlog] = useState("");

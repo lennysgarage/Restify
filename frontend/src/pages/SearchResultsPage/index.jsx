@@ -13,7 +13,7 @@ export default function SearchResultsPage() {
     const [query, setQuery] = useState(window.location.href.substring(29));
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(1);
-    const PER_PAGE = 2; // This needs to be same as pagination value in django backend
+    const PER_PAGE = 6; // This needs to be same as pagination value in django backend
     const [data, setData] = useState(null);
 
     

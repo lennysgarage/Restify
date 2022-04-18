@@ -12,7 +12,7 @@ const Feed = () => {
     let navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [count, setCount] = useState(1);
-    const PER_PAGE = 4;
+    const PER_PAGE = 6;
     const [data, setData] = useState(null);
 
     const handlePageChange = (e, p) => {
