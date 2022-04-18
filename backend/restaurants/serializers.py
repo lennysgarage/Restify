@@ -6,6 +6,7 @@ from .models import Like, MenuItem, Restaurant, Comment, Follow, RestaurantImage
 from accounts.models import User
 from django.shortcuts import get_object_or_404
 
+from accounts.serializers import ViewUserSerializer
 
 class RestaurantSerializer(serializers.ModelSerializer):
     class Meta:
@@ -54,9 +55,11 @@ class EditMenuItemSerializer(serializers.ModelSerializer):
         fields = ('name', 'description', 'price', 'photo')
         
 class CommentSerializer(serializers.ModelSerializer):
+    owner = ViewUserSerializer()
+
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ('id', 'body', 'date', 'owner')
 
 class AddCommentSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(required=False)

@@ -31,7 +31,7 @@ const Restaurant = ({ id }) => {
     const [count3, setCount3] = useState(1);
     const [page4, setPage4] = useState(1);
     const [count4, setCount4] = useState(1);
-    const PER_PAGE = 4;
+    const PER_PAGE = 2;
     const [value, setValue] = useState('1');
     const [edit, setEdit] = useState("");
     const [addBlog, setAddBlog] = useState("");
@@ -177,19 +177,6 @@ const Restaurant = ({ id }) => {
             })
         axios.get(`http://localhost:8000/api/restaurants/${id}/comments/?page=` + page4)
             .then(response => {
-                if (response.data.results !== null) {
-                    response.data.results.forEach(comment => {
-                        axios.get(`http://localhost:8000/api/accounts/user/${comment.owner}`, {
-                            headers: authHeader()
-                        })
-                            .then(response2 => {
-                                comment.name = response2.data.first_name + " " + response2.data.last_name
-                            })
-                    })
-                }
-
-                console.log(response.data.results)
-
                 setComments(response.data.results);
 
                 setCount4(Math.ceil(response.data.count / PER_PAGE));
@@ -372,7 +359,7 @@ const Restaurant = ({ id }) => {
                                     <Grid item xs={12} sm={6} md={3} key={index} sx={{ m: 2 }}>
                                         <Card sx={{ maxWidth: 345 }}>
                                             <CardHeader
-                                                title={r.name}
+                                                title={r.owner.first_name}
                                                 subheader={`
                                             ${r.body}
                                             `}
