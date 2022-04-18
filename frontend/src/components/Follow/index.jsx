@@ -49,9 +49,9 @@ export default function Follow({ restaurantId, userId }) {
     .then(response => {
       response.data.results.forEach(follow => {
         if (follow.restaurant === parseInt(restaurantId)) {
-          setIsFollowed(true)
+          setNumFollows(numFollows + 1)
           if (follow.follower === parseInt(userId)) {
-            setNumFollows(numFollows + 1)
+            setIsFollowed(true)
           }
         }
       })
