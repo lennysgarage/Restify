@@ -43,7 +43,7 @@ export default function Follow({ restaurantId, userId }) {
   }
 
   useEffect(() => {
-    axios.get("http://localhost:8000/api/restaurants/followers/", {
+    axios.get(`http://localhost:8000/api/restaurants/${restaurantId}/followers/`, {
         headers: authHeader()
     })
     .then(response => {
